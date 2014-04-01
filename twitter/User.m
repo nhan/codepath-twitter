@@ -22,7 +22,7 @@ static User* _currentUser = nil;
 {
     self = [super init];
     if (self) {
-        self.id = [dict[@"id"] integerValue];
+        self.userId = [dict[@"id"] integerValue];
         self.name = dict[@"name"];
         self.screenName = dict[@"screen_name"];
         self.profileImageURL = [NSURL URLWithString:dict[@"profile_image_url"]];
@@ -33,7 +33,7 @@ static User* _currentUser = nil;
 #pragma mark - NSCoding
 - (void)encodeWithCoder:(NSCoder *)encoder
 {
-    [encoder encodeInteger:self.id forKey:@"id"];
+    [encoder encodeInteger:self.userId forKey:@"userId"];
     [encoder encodeObject:self.name forKey:@"name"];
     [encoder encodeObject:self.screenName forKey:@"screenName"];
     [encoder encodeObject:self.profileImageURL forKey:@"profileImageURL"];
@@ -43,7 +43,7 @@ static User* _currentUser = nil;
 {
     self = [super init];
     if (self) {
-        self.id = [decoder decodeIntegerForKey:@"id"];
+        self.userId = [decoder decodeIntegerForKey:@"userId"];
         self.name = [decoder decodeObjectForKey:@"name"];
         self.screenName = [decoder decodeObjectForKey:@"screenName"];
         self.profileImageURL = [decoder decodeObjectForKey:@"profileImageURL"];

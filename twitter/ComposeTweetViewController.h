@@ -9,12 +9,15 @@
 #import <UIKit/UIKit.h>
 #import "Tweet.h"
 
+extern NSString * const NewTweetPostedNotification;
+extern NSString * const NewTweetPostedNotificationKey;
+
 @protocol ComposeTweetDelegate <NSObject>
 - (void)didTweet:(Tweet*) tweet;
 - (void)didCancelComposeTweet;
 @end
 
 @interface ComposeTweetViewController : UIViewController
-- (id)initWithTweetText:(NSString *)tweetText;
+- (id)initWithTweetText:(NSString *)tweetText replyToTweetId:(NSNumber*)replyToTweetId;
 @property (weak, nonatomic) id<ComposeTweetDelegate> delegate;
 @end

@@ -11,11 +11,11 @@
 #import "User.h"
 
 @interface Tweet : NSObject
-@property (nonatomic, assign) NSInteger id;
-@property (nonatomic, strong) User* user;
-@property (nonatomic, strong) User* retweetedByUser;
-@property (nonatomic, strong) NSDate* createdAt;
-@property (nonatomic, strong) NSString* text;
+@property (nonatomic, assign) unsigned long long tweetId;
+@property (nonatomic, strong) User *user;
+@property (nonatomic, strong) User *retweetedByUser;
+@property (nonatomic, strong) NSDate *createdAt;
+@property (nonatomic, strong) NSString *text;
 @property (nonatomic, assign) NSInteger retweetCount;
 @property (nonatomic, assign) NSInteger favoriteCount;
 @property (nonatomic, assign) BOOL favorited;

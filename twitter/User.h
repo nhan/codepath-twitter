@@ -12,7 +12,7 @@ extern NSString * const CurrentUserSetNotification;
 extern NSString * const CurrentUserRemovedNotification;
 
 @interface User : NSObject<NSCoding>
-@property (nonatomic, assign) NSInteger id;
+@property (nonatomic, assign) NSInteger userId;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *screenName;
 @property (nonatomic, strong) NSURL *profileImageURL;

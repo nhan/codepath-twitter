@@ -7,6 +7,7 @@
 //
 
 #import "Tweet.h"
+#import "TwitterClient.h"
 #import "TweetDetailViewController.h"
 #import <AFNetworking/UIImageView+AFNetworking.h>
 #import <NSDate+DateTools.h>
@@ -42,6 +43,50 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    UIBarButtonItem *replyButton = [[UIBarButtonItem alloc] initWithTitle:@"Reply"
+                                                                    style:UIBarButtonItemStyleDone
+                                                                   target:self
+                                                                   action:@selector(replyButtonAction:)];
+    self.navigationItem.rightBarButtonItem = replyButton;
+    [self refreshView];
+}
+
+- (IBAction)replyButtonAction:(id)sender {
+    NSString *initialText = [NSString stringWithFormat:@"@%@ ", self.tweet.user.screenName];
+    NSNumber *replyToTweetId = [NSNumber numberWithLongLong:self.tweet.tweetId];
+    ComposeTweetViewController *composeViewController = [[ComposeTweetViewController alloc] initWithTweetText:initialText replyToTweetId:replyToTweetId];
+    composeViewController.delegate = self;
+    UINavigationController *wrapperNavController = [[UINavigationController alloc] initWithRootViewController:composeViewController];
+    [self presentViewController:wrapperNavController animated:YES completion: nil];
+}
+
+- (IBAction)retweetButtonAction:(id)sender {
+    if (!self.tweet.retweeted) {
+        [[TwitterClient instance] retweet:self.tweet success:nil failure:nil];
+        [self refreshView];
+    }
+}
+
+- (IBAction)favoriteButtonAction:(id)sender {
+    [[TwitterClient instance] toggleFavoriteForTweet:self.tweet success:nil failure:nil];
+    [self refreshView];
+}
+
+#pragma mark - ComposeTweetDelegate
+- (void) didTweet:(Tweet *)tweet
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+    [self refreshView];
+}
+
+- (void) didCancelComposeTweet
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - Private methods
+- (void) refreshView
+{
     Tweet* tweet = self.tweet;
     if (tweet.retweetedByUser) {
         self.retweetedByLabel.text = [NSString stringWithFormat:@"%@ retweeted", tweet.retweetedByUser.name];
@@ -73,13 +118,4 @@
     }
 }
 
-- (void)didTweet:(Tweet *)tweet
-{
-    
-}
-
-- (void) didCancelComposeTweet
-{
-    
-}
 @end

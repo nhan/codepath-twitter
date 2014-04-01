@@ -87,6 +87,9 @@
                     <state key="normal" image="reply_default">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <connections>
+                        <action selector="replyButtonAction:" destination="-1" eventType="touchUpInside" id="L2E-QX-1Kj"/>
+                    </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Z0-Zg-Jcp" userLabel="Retweet Button">
                     <rect key="frame" x="95" y="256" width="16" height="16"/>
@@ -98,6 +101,9 @@
                     <state key="normal" image="retweet_default">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <connections>
+                        <action selector="retweetButtonAction:" destination="-1" eventType="touchUpInside" id="6qY-YM-AUt"/>
+                    </connections>
                 </button>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1000" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wxq-eS-geN" userLabel="Retweet Count Label">
                     <rect key="frame" x="8" y="224" width="28" height="15"/>
@@ -111,6 +117,9 @@
                     <state key="normal" image="favorite_default">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <connections>
+                        <action selector="favoriteButtonAction:" destination="-1" eventType="touchUpInside" id="zZT-8t-mps"/>
+                    </connections>
                 </button>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="99999" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xGp-dJ-EaJ" userLabel="Favorite Count Label">
                     <rect key="frame" x="121" y="224" width="34" height="15"/>

@@ -54,7 +54,6 @@ static NSString * const AccessTokenKey = @"com.codepath.twitter.access_token";
                                 [self requestAccessTokenWithRequestToken:requestToken success:success failure:failure];
                             }
                             failure:^(NSError *error) {
-                                // TODO: remove logging
                                 NSLog(@"Error during request token: %@", error.localizedDescription);
                                 failure(error);
                             }];
@@ -69,7 +68,6 @@ static NSString * const AccessTokenKey = @"com.codepath.twitter.access_token";
           success(currentUser);
       }
       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-          // TODO: remove logging
           NSLog(@"current user failure: %@", error);
           failure(error);
       }];
@@ -97,7 +95,78 @@ static NSString * const AccessTokenKey = @"com.codepath.twitter.access_token";
       }];
 }
 
-#pragma mark - Private methods
+- (void)postTweetWithText:(NSString*)text replyToTweetId:(NSNumber*)replyToId success:(void (^)(Tweet* tweet))success failure:(void (^)(NSError *error))failure
+{
+    NSDictionary *params;
+    
+    if (replyToId) {
+        params = @{@"status": text, @"in_reply_to_status_id": replyToId};
+    } else {
+        params = @{@"status": text};
+    }
+
+    [self POST:@"1.1/statuses/update.json" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        if ([responseObject isKindOfClass:[NSDictionary class]]) {
+            NSDictionary *response = (NSDictionary*) responseObject;
+//            NSLog(@"%@", response);
+            Tweet *tweet = [[Tweet alloc] initWithDictionary:response];
+            success(tweet);
+        } else {
+            failure([NSError errorWithDomain:@"Post Tweet" code:400 userInfo:nil]);
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        failure(error);
+    }];
+}
+
+- (void)toggleFavoriteForTweet:(Tweet *)tweet success:(void (^)(Tweet *))success failure:(void (^)(NSError *))failure
+{
+    NSString* resource;
+    if (tweet.favorited) {
+        resource = @"1.1/favorites/destroy.json";
+        tweet.favorited = NO;
+        tweet.favoriteCount--;
+    } else {
+        resource = @"1.1/favorites/create.json";
+        tweet.favorited = YES;
+        tweet.favoriteCount++;
+    }
+    NSDictionary *params = @{@"id": [NSNumber numberWithLongLong:tweet.tweetId]};
+    
+    [self POST:resource parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        if ([responseObject isKindOfClass:[NSDictionary class]]) {
+            NSDictionary *response = (NSDictionary*) responseObject;
+//            NSLog(@"%@", response);
+            Tweet *tweet = [[Tweet alloc] initWithDictionary:response];
+            if (success) success(tweet);
+        } else {
+            if (failure) failure([NSError errorWithDomain:@"Post Tweet" code:400 userInfo:nil]);
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        if (failure) failure(error);
+    }];
+}
+
+- (void) retweet:(Tweet *)tweet success:(void (^)(Tweet *))success failure:(void (^)(NSError *))failure
+{
+    tweet.retweeted = YES;
+    tweet.retweetCount++;
+    NSString *retweetResource = [NSString stringWithFormat:@"1.1/statuses/retweet/%lld.json", tweet.tweetId];
+    NSDictionary *params = @{@"id": [NSNumber numberWithLongLong:tweet.tweetId]};
+    
+    [self POST:retweetResource parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        if ([responseObject isKindOfClass:[NSDictionary class]]) {
+            NSDictionary *response = (NSDictionary*) responseObject;
+//            NSLog(@"%@", response);
+            Tweet *tweet = [[Tweet alloc] initWithDictionary:response];
+            if (success) success(tweet);
+        } else {
+            if (failure) failure([NSError errorWithDomain:@"Post Tweet" code:400 userInfo:nil]);
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        if (failure) failure(error);
+    }];
+}
 
 - (void) requestAccessTokenWithRequestToken:(BDBOAuthToken*)requestToken
                                     success:(void (^)())success
@@ -135,7 +204,6 @@ static NSString * const AccessTokenKey = @"com.codepath.twitter.access_token";
                                    }
                                    failure:^(NSError* error) {
                                        NSLog(@"Error during access token: %@", error.localizedDescription);
-                                       // TODO: remove logging
                                        [[NSNotificationCenter defaultCenter] removeObserver:self.applicationLaunchNotificationObserver];
                                        self.applicationLaunchNotificationObserver = nil;
                                        failure(error);

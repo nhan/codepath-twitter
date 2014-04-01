@@ -14,7 +14,7 @@
 
 @interface HomeViewController ()
 // TODO: might want to cache this somewhere else
-@property (strong, nonatomic) NSArray* tweets;
+@property (strong, nonatomic) NSMutableArray* tweets;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) TweetCell* referenceTweetCell;
 @property (strong, nonatomic) UIRefreshControl* refreshControl;
@@ -27,8 +27,13 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.title = @"Home";
-        self.tweets = [[NSArray alloc] init];
+        self.tweets = [[NSMutableArray alloc] init];
         [self refetchTweetsAndShowProgressHUD];
+        [[NSNotificationCenter defaultCenter] addObserverForName:NewTweetPostedNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification) {
+            Tweet* tweet = notification.userInfo[NewTweetPostedNotificationKey];
+            [self.tweets insertObject:tweet atIndex:0];
+            [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+        }];
     }
     return self;
 }
@@ -58,6 +63,12 @@
     tableViewController.refreshControl = self.refreshControl;
 }
 
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.tableView reloadData];
+}
+
 - (void) networkError:(NSError *)error
 {
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Could not connect to Twitter.  Please try again." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
@@ -71,12 +82,38 @@
 
 - (void) setTweets:(NSArray *)tweets
 {
-    _tweets = tweets;
+    _tweets = [tweets mutableCopy];
+}
+
+- (void) refetchTweetsViaRefreshControl
+{
+    [[TwitterClient instance] homeTimelineWithSuccess:^(NSArray *tweets) {
+        self.tweets = [tweets mutableCopy];
+        [self.tableView reloadData];
+        [self.refreshControl endRefreshing];
+    } failure:^(NSError *error) {
+        [self.refreshControl endRefreshing];
+        [self networkError:error];
+    }];
+}
+
+- (void) refetchTweetsAndShowProgressHUD
+{
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    [[TwitterClient instance] homeTimelineWithSuccess:^(NSArray *tweets) {
+        self.tweets = [tweets mutableCopy];
+        [self.tableView reloadData];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    } failure:^(NSError *error) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [self networkError:error];
+    }];
 }
 
 - (void) newTweet
 {
-    ComposeTweetViewController *composeViewController = [[ComposeTweetViewController alloc] initWithTweetText:@""];
+    ComposeTweetViewController *composeViewController = [[ComposeTweetViewController alloc] initWithTweetText:@"" replyToTweetId:nil];
     composeViewController.delegate = self;
     UINavigationController *wrapperNavController = [[UINavigationController alloc] initWithRootViewController:composeViewController];
     [self presentViewController:wrapperNavController animated:YES completion: nil];
@@ -114,32 +151,6 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return self.tweets.count;
-}
-
-- (void) refetchTweetsViaRefreshControl
-{
-    [[TwitterClient instance] homeTimelineWithSuccess:^(NSArray *tweets) {
-        self.tweets = tweets;
-        [self.tableView reloadData];
-        [self.refreshControl endRefreshing];
-    } failure:^(NSError *error) {
-        [self.refreshControl endRefreshing];
-        [self networkError:error];
-    }];
-}
-
-- (void) refetchTweetsAndShowProgressHUD
-{
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    
-    [[TwitterClient instance] homeTimelineWithSuccess:^(NSArray *tweets) {
-        self.tweets = tweets;
-        [self.tableView reloadData];
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-    } failure:^(NSError *error) {
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-        [self networkError:error];
-    }];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

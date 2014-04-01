@@ -14,6 +14,7 @@
 {
     self = [super init];
     if (self) {
+        self.tweetId = [dict[@"id"] longLongValue];
         // pull user and text from the retweet if it's a retweet
         NSDictionary* retweet = dict[@"retweeted_status"];
         if (retweet) {
