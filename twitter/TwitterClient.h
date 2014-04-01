@@ -21,4 +21,5 @@ extern NSString * const TwitterClientCallbackURLKey;
 - (void)postTweetWithText:(NSString*)text replyToTweetId:(NSNumber*)replyToId success:(void (^)(Tweet* tweet))success failure:(void (^)(NSError *error))failure;
 - (void)toggleFavoriteForTweet:(Tweet *)tweet success:(void (^)(Tweet *))success failure:(void (^)(NSError *))failure;
 - (void)retweet:(Tweet*)tweet success:(void (^)(Tweet* tweet))success failure:(void (^)(NSError *error))failure;
+- (void)unRetweet:(Tweet*) tweet success:(void (^)())success failure:(void (^)(NSError *))failure;
 @end

@@ -31,6 +31,9 @@
         self.favoriteCount = [dict[@"favorite_count"] integerValue];
         self.favorited = [dict[@"favorited"] boolValue];
         self.retweeted = [dict[@"retweeted"] boolValue];
+        if ([dict[@"current_user_retweet"] isKindOfClass:[NSDictionary class]]) {
+            self.myRetweetId = [(dict[@"current_user_retweet"][@"id"]) longLongValue];
+        }
     }
     return self;
 }

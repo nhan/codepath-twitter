@@ -64,6 +64,9 @@
     if (!self.tweet.retweeted) {
         [[TwitterClient instance] retweet:self.tweet success:nil failure:nil];
         [self refreshView];
+    } else {
+        [[TwitterClient instance] unRetweet:self.tweet success:nil failure:nil];
+        [self refreshView];
     }
 }
 

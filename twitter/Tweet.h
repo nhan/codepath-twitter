@@ -20,6 +20,7 @@
 @property (nonatomic, assign) NSInteger favoriteCount;
 @property (nonatomic, assign) BOOL favorited;
 @property (nonatomic, assign) BOOL retweeted;
+@property (nonatomic, assign) unsigned long long myRetweetId;
 
 - (instancetype) initWithDictionary:(NSDictionary*)dict;
 @end

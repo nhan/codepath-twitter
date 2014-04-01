@@ -132,6 +132,8 @@
 - (void)retweetAction:(Tweet*)tweet {
     if (!tweet.retweeted) {
         [[TwitterClient instance] retweet:tweet success:nil failure:nil];
+    } else {
+        [[TwitterClient instance] unRetweet:tweet success:nil failure:nil];
     }
 }
 

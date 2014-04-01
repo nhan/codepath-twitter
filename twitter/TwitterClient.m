@@ -149,8 +149,14 @@ static NSString * const AccessTokenKey = @"com.codepath.twitter.access_token";
 
 - (void) retweet:(Tweet *)tweet success:(void (^)(Tweet *))success failure:(void (^)(NSError *))failure
 {
+    if (tweet.retweeted) {
+        if (failure) failure([NSError errorWithDomain:@"Alread retweeted." code:400 userInfo:nil]);
+    }
+    
+    // optimistically update the tweet
     tweet.retweeted = YES;
     tweet.retweetCount++;
+    
     NSString *retweetResource = [NSString stringWithFormat:@"1.1/statuses/retweet/%lld.json", tweet.tweetId];
     NSDictionary *params = @{@"id": [NSNumber numberWithLongLong:tweet.tweetId]};
     
@@ -163,6 +169,49 @@ static NSString * const AccessTokenKey = @"com.codepath.twitter.access_token";
         } else {
             if (failure) failure([NSError errorWithDomain:@"Post Tweet" code:400 userInfo:nil]);
         }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        if (failure) failure(error);
+    }];
+}
+
+- (void) unRetweet:(Tweet*) tweet success:(void (^)())success failure:(void (^)(NSError *))failure
+{
+    if (!tweet.retweeted) {
+        if (failure) failure([NSError errorWithDomain:@"Cannot unretweet tweet that is not retweeted." code:400 userInfo:nil]);
+    }
+    
+    // optimistically update the tweet
+    tweet.retweeted = NO;
+    tweet.retweetCount--;
+    
+    // We have to make an additional get call to get the right retweet id to delete
+    NSDictionary *params = @{@"id": [NSNumber numberWithLongLong:tweet.tweetId], @"include_my_retweet": [NSNumber numberWithBool:YES]};
+    
+    [self GET:@"1.1/statuses/show.json" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        if ([responseObject isKindOfClass:[NSDictionary class]]) {
+            NSDictionary *response = (NSDictionary*) responseObject;
+//            NSLog(@"%@", response);
+            Tweet *tweet = [[Tweet alloc] initWithDictionary:response];
+            [self deleteTweetWithId:tweet.myRetweetId success:success failure:failure];
+
+        } else {
+            if (failure) failure([NSError errorWithDomain:@"Post Tweet" code:400 userInfo:nil]);
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        if (failure) failure(error);
+    }];
+}
+
+#pragma mark - Private methods
+
+- (void) deleteTweetWithId:(unsigned long long)tweetId success:(void (^)())success failure:(void (^)(NSError *))failure
+{
+    NSString *deleteResource = [NSString stringWithFormat:@"1.1/statuses/destroy/%lld.json", tweetId];
+    NSDictionary *params = @{@"id": [NSNumber numberWithLongLong:tweetId]};
+    [self POST:deleteResource parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject)
+    {
+//        NSLog(@"%@", responseObject);
+        if (success) success();
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if (failure) failure(error);
     }];
