@@ -51,6 +51,7 @@
 // assumes user has signed
 - (void) fetchAndSaveCurrentUser
 {
+    // TODO: show loading here
     [[TwitterClient instance] currentUserWithSuccess:^(User *currentUser) {
         [User setCurrentUser:currentUser];
     } failure:^(NSError *error) {
@@ -60,7 +61,7 @@
 
 - (void) errorDuringSignIn:(NSError *)error
 {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Couldn't sign in to Twitter.  Please try again" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Could not sign in to Twitter.  Please try again." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
     [alertView show];
 }
 @end

@@ -1,5 +1,5 @@
 //
-//  HomeViewController.h
+//  TweetCell.h
 //  twitter
 //
 //  Created by Nhan Nguyen on 4/1/14.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HomeViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
+@interface TweetCell : UITableViewCell
 
 @end

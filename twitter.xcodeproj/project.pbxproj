@@ -26,6 +26,9 @@
 		6BE020EA18EA9D8800961424 /* SignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE020E818EA9D8800961424 /* SignInViewController.m */; };
 		6BE020EB18EA9D8800961424 /* SignInViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BE020E918EA9D8800961424 /* SignInViewController.xib */; };
 		6BE020EE18EAB43900961424 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE020ED18EAB43900961424 /* User.m */; };
+		6BE020F318EAD5F700961424 /* Tweet.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE020F218EAD5F700961424 /* Tweet.m */; };
+		6BE020F718EAE9B200961424 /* TweetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE020F518EAE9B200961424 /* TweetCell.m */; };
+		6BE020F818EAE9B200961424 /* TweetCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BE020F618EAE9B200961424 /* TweetCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +70,11 @@
 		6BE020E918EA9D8800961424 /* SignInViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SignInViewController.xib; sourceTree = "<group>"; };
 		6BE020EC18EAB43900961424 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		6BE020ED18EAB43900961424 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		6BE020F118EAD5F700961424 /* Tweet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tweet.h; sourceTree = "<group>"; };
+		6BE020F218EAD5F700961424 /* Tweet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tweet.m; sourceTree = "<group>"; };
+		6BE020F418EAE9B200961424 /* TweetCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweetCell.h; sourceTree = "<group>"; };
+		6BE020F518EAE9B200961424 /* TweetCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TweetCell.m; sourceTree = "<group>"; };
+		6BE020F618EAE9B200961424 /* TweetCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TweetCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +140,9 @@
 				6BE020F018EAB44F00961424 /* API */,
 				6BE020EF18EAB43F00961424 /* Models */,
 				6BE020BF18E96E0000961424 /* AppDelegate.h */,
+				6BE020F418EAE9B200961424 /* TweetCell.h */,
+				6BE020F518EAE9B200961424 /* TweetCell.m */,
+				6BE020F618EAE9B200961424 /* TweetCell.xib */,
 				6BE020C018E96E0000961424 /* AppDelegate.m */,
 				6BE020E218EA9BD700961424 /* HomeViewController.h */,
 				6BE020E318EA9BD700961424 /* HomeViewController.m */,
@@ -179,6 +190,8 @@
 			children = (
 				6BE020EC18EAB43900961424 /* User.h */,
 				6BE020ED18EAB43900961424 /* User.m */,
+				6BE020F118EAD5F700961424 /* Tweet.h */,
+				6BE020F218EAD5F700961424 /* Tweet.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -270,6 +283,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6BE020EB18EA9D8800961424 /* SignInViewController.xib in Resources */,
+				6BE020F818EAE9B200961424 /* TweetCell.xib in Resources */,
 				6BE020BB18E96E0000961424 /* InfoPlist.strings in Resources */,
 				6BE020C318E96E0000961424 /* Images.xcassets in Resources */,
 				6BE020E618EA9BD700961424 /* HomeViewController.xib in Resources */,
@@ -327,9 +341,11 @@
 				6BE020EA18EA9D8800961424 /* SignInViewController.m in Sources */,
 				6BE020C118E96E0000961424 /* AppDelegate.m in Sources */,
 				6BE020EE18EAB43900961424 /* User.m in Sources */,
+				6BE020F318EAD5F700961424 /* Tweet.m in Sources */,
 				6BE020E118E989AB00961424 /* TwitterClient.m in Sources */,
 				6BE020BD18E96E0000961424 /* main.m in Sources */,
 				6BE020E518EA9BD700961424 /* HomeViewController.m in Sources */,
+				6BE020F718EAE9B200961424 /* TweetCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

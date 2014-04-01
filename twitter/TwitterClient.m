@@ -75,6 +75,28 @@ static NSString * const AccessTokenKey = @"com.codepath.twitter.access_token";
       }];
 }
 
+- (void)homeTimelineWithSuccess:(void (^)(NSArray *))success failure:(void (^)(NSError *))failure
+{
+    [self GET:@"1.1/statuses/home_timeline.json"
+   parameters:nil
+      success:^(AFHTTPRequestOperation *operation, id responseObject) {
+          if ([responseObject isKindOfClass:[NSArray class]]) {
+              NSArray *response = (NSArray*) responseObject;
+              NSMutableArray *parsedTweets = [[NSMutableArray alloc] initWithCapacity:response.count];
+              for (NSDictionary *tweetDict in response) {
+                  Tweet* tweet = [[Tweet alloc] initWithDictionary:tweetDict];
+                  [parsedTweets addObject:tweet];
+              }
+              success(parsedTweets);
+          } else {
+              failure([NSError errorWithDomain:@"Home Timeline" code:400 userInfo:nil]);
+          }
+      }
+      failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        failure(error);
+      }];
+}
+
 #pragma mark - Private methods
 
 - (void) requestAccessTokenWithRequestToken:(BDBOAuthToken*)requestToken
