@@ -22,6 +22,7 @@ NSString * const NewTweetPostedNotificationKey = @"com.codepath.twitter.new_twee
 @property (weak, nonatomic) IBOutlet UIImageView *profileImage;
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *userScreenNameLabel;
+@property (strong, nonatomic) UIBarButtonItem *charLimitButton;
 @end
 
 @implementation ComposeTweetViewController
@@ -43,12 +44,14 @@ NSString * const NewTweetPostedNotificationKey = @"com.codepath.twitter.new_twee
                                                                     style:UIBarButtonItemStyleBordered
                                                                    target:self
                                                                    action:@selector(cancelTweet)];
-    UIBarButtonItem *searchButton= [[UIBarButtonItem alloc] initWithTitle:@"Tweet"
+    NSString *charLimit = [NSString stringWithFormat:@"%d", (140 - self.initialText.length)];
+    self.charLimitButton = [[UIBarButtonItem alloc] initWithTitle:charLimit style:UIBarButtonItemStylePlain target:nil action:nil];
+    UIBarButtonItem *tweetButton= [[UIBarButtonItem alloc] initWithTitle:@"Tweet"
                                                                     style:UIBarButtonItemStyleDone
                                                                    target:self
                                                                    action:@selector(confirmTweet)];
     self.navigationItem.leftBarButtonItem = cancelButton;
-    self.navigationItem.rightBarButtonItem = searchButton;
+    self.navigationItem.rightBarButtonItems = @[tweetButton, self.charLimitButton];
     
     User* currentUser = [User currentUser];
     [self.profileImage setImageWithURL:currentUser.profileImageURL];
@@ -56,7 +59,22 @@ NSString * const NewTweetPostedNotificationKey = @"com.codepath.twitter.new_twee
     self.userScreenNameLabel.text = [NSString stringWithFormat:@"@%@", currentUser.screenName];
 
     self.tweetTextView.text = self.initialText;
+    self.tweetTextView.delegate = self;
     [self.tweetTextView becomeFirstResponder];
+}
+
+// TODO: this needs to be debounced
+- (void)textViewDidChange:(UITextView *)textView
+{
+    NSInteger numCharacters = 140 - self.tweetTextView.text.length;
+    NSString *charLimit = [NSString stringWithFormat:@"%d", numCharacters];
+    self.charLimitButton.title = charLimit;
+    
+    CGFloat redColor = 1.0f - (MAX(0,numCharacters))/140.0f;
+    CGFloat blueColor = (MAX(0,numCharacters))/140.0f;
+    CGFloat greenColor = (122.0f/225.0f)*(MAX(0,numCharacters))/140.0f;
+    
+    self.charLimitButton.tintColor = [UIColor colorWithRed:redColor green:greenColor blue:blueColor alpha:1];
 }
 
 - (void) confirmTweet

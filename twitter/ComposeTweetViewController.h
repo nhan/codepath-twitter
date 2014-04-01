@@ -17,7 +17,7 @@ extern NSString * const NewTweetPostedNotificationKey;
 - (void)didCancelComposeTweet;
 @end
 
-@interface ComposeTweetViewController : UIViewController
+@interface ComposeTweetViewController : UIViewController<UITextViewDelegate>
 - (id)initWithTweetText:(NSString *)tweetText replyToTweetId:(NSNumber*)replyToTweetId;
 @property (weak, nonatomic) id<ComposeTweetDelegate> delegate;
 @end
