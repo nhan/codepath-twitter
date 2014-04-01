@@ -21,7 +21,7 @@
                             <constraint firstAttribute="height" constant="48" id="rkr-mp-0v2"/>
                         </constraints>
                     </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5bU-Xy-y7Y" userLabel="Retweet Indicator">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="retweet_default" translatesAutoresizingMaskIntoConstraints="NO" id="5bU-Xy-y7Y" userLabel="Retweet Indicator">
                         <rect key="frame" x="40" y="5" width="16" height="16"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <constraints>
@@ -29,10 +29,10 @@
                             <constraint firstAttribute="height" constant="16" id="vum-DK-Jp5"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ev6-mo-heS" userLabel="Retweet Indicator Label">
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Retweeted by @foo" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ev6-mo-heS" userLabel="Retweet Indicator Label">
                         <rect key="frame" x="61" y="5" width="254" height="16"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -63,7 +63,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ecX-8W-urF" userLabel="Reply Button">
-                        <rect key="frame" x="61" y="80" width="16" height="16"/>
+                        <rect key="frame" x="61" y="83" width="16" height="16"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="16" id="4OF-do-bWp"/>
@@ -74,7 +74,7 @@
                         </state>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8gI-jB-NJl" userLabel="Retweet Button">
-                        <rect key="frame" x="109" y="80" width="16" height="16"/>
+                        <rect key="frame" x="109" y="83" width="16" height="16"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="16" id="tUG-Hb-qcV"/>
@@ -85,21 +85,21 @@
                         </state>
                     </button>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d9D-IU-VAR" userLabel="Retweet Count Label">
-                        <rect key="frame" x="130" y="82" width="26" height="12"/>
+                        <rect key="frame" x="130" y="85" width="26" height="12"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="10"/>
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rCc-YN-WsF" userLabel="Favorite Button">
-                        <rect key="frame" x="173" y="78" width="16" height="16"/>
+                        <rect key="frame" x="173" y="81" width="16" height="16"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <state key="normal" image="favorite_default">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
                     </button>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gVN-Vs-yON" userLabel="Favorite Count Label">
-                        <rect key="frame" x="194" y="80" width="26" height="12"/>
+                        <rect key="frame" x="194" y="83" width="26" height="12"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="10"/>
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -129,7 +129,7 @@
                     <constraint firstItem="8gI-jB-NJl" firstAttribute="leading" secondItem="ecX-8W-urF" secondAttribute="trailing" constant="32" id="lOm-xL-QNW"/>
                     <constraint firstItem="rCc-YN-WsF" firstAttribute="leading" secondItem="8gI-jB-NJl" secondAttribute="trailing" constant="48" id="mOu-Zf-VqI"/>
                     <constraint firstItem="LV4-JD-mm4" firstAttribute="top" secondItem="7Jr-Tp-VPv" secondAttribute="top" id="oZ3-VB-8eO"/>
-                    <constraint firstItem="ecX-8W-urF" firstAttribute="top" secondItem="89t-tF-uap" secondAttribute="bottom" constant="5" id="pil-b0-FYu"/>
+                    <constraint firstItem="ecX-8W-urF" firstAttribute="top" secondItem="89t-tF-uap" secondAttribute="bottom" constant="8" id="pil-b0-FYu"/>
                     <constraint firstItem="rCc-YN-WsF" firstAttribute="height" secondItem="8gI-jB-NJl" secondAttribute="height" id="q0w-D6-Dhe"/>
                     <constraint firstItem="7Jr-Tp-VPv" firstAttribute="leading" secondItem="LV4-JD-mm4" secondAttribute="trailing" constant="5" id="qVi-gp-7hQ"/>
                     <constraint firstItem="d9D-IU-VAR" firstAttribute="leading" secondItem="8gI-jB-NJl" secondAttribute="trailing" constant="5" id="qha-tS-kdN"/>
@@ -139,6 +139,20 @@
                     <constraint firstItem="LV4-JD-mm4" firstAttribute="top" secondItem="5bU-Xy-y7Y" secondAttribute="bottom" constant="5" id="yux-r6-6Fq"/>
                 </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="createdAtLabel" destination="gmi-4U-UlM" id="3MY-7B-5kz"/>
+                <outlet property="favoriteButton" destination="rCc-YN-WsF" id="ixP-SC-yfm"/>
+                <outlet property="favoriteCountLabel" destination="gVN-Vs-yON" id="uWN-k7-foI"/>
+                <outlet property="nameLabel" destination="7Jr-Tp-VPv" id="F4t-Vr-SZc"/>
+                <outlet property="profileImageView" destination="LV4-JD-mm4" id="taK-Ov-9a3"/>
+                <outlet property="retweetButton" destination="8gI-jB-NJl" id="jK5-cy-mM1"/>
+                <outlet property="retweetCountLabel" destination="d9D-IU-VAR" id="KLb-h4-acy"/>
+                <outlet property="retweetIndicatorHeight" destination="vum-DK-Jp5" id="kfp-Iv-SKb"/>
+                <outlet property="retweetIndicatorTopOfCellSpacing" destination="sJp-Ac-TZG" id="N4z-rS-Hog"/>
+                <outlet property="retweetLabel" destination="ev6-mo-heS" id="IKy-Zr-Xxp"/>
+                <outlet property="screenNameLabel" destination="KgR-LN-M92" id="aLF-7U-UkI"/>
+                <outlet property="tweetTextLabel" destination="89t-tF-uap" id="Edg-oD-cbh"/>
+            </connections>
         </tableViewCell>
     </objects>
     <resources>

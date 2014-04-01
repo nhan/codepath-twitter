@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 codepath. All rights reserved.
 //
 
+#import <MBProgressHUD.h>
 #import "SignInViewController.h"
 #import "TwitterClient.h"
 
@@ -48,13 +49,15 @@
 }
 
 # pragma mark - Private methods
-// assumes user has signed
+// assumes user has signed in
 - (void) fetchAndSaveCurrentUser
 {
-    // TODO: show loading here
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [[TwitterClient instance] currentUserWithSuccess:^(User *currentUser) {
         [User setCurrentUser:currentUser];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
     } failure:^(NSError *error) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
         [self errorDuringSignIn:error];
     }];
 }

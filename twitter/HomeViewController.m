@@ -6,14 +6,18 @@
 //  Copyright (c) 2014 codepath. All rights reserved.
 //
 
-#import "HomeViewController.h"
-#import "TwitterClient.h"
 #import <MBProgressHUD.h>
+#import "HomeViewController.h"
+#import "TweetDetailViewController.h"
+#import "TwitterClient.h"
+#import "TweetCell.h"
 
 @interface HomeViewController ()
 // TODO: might want to cache this somewhere else
 @property (strong, nonatomic) NSArray* tweets;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) TweetCell* referenceTweetCell;
+@property (strong, nonatomic) UIRefreshControl* refreshControl;
 @end
 
 @implementation HomeViewController
@@ -24,7 +28,7 @@
     if (self) {
         self.title = @"Home";
         self.tweets = [[NSArray alloc] init];
-        [self refetchTweetsWithProgressHUD:YES];
+        [self refetchTweetsAndShowProgressHUD];
     }
     return self;
 }
@@ -42,40 +46,24 @@
                                                                              action:@selector(newTweet)];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"Cell"];
-}
-
-#pragma mark - UITableViewDelegate
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
-    Tweet *tweet = self.tweets[indexPath.row];
-    cell.textLabel.text = tweet.text;
-    return cell;
-}
-
-#pragma mark - UITableViewDataSource
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return self.tweets.count;
-}
-
-- (void) refetchTweetsWithProgressHUD:(BOOL) shouldShowHUD
-{
-    if (shouldShowHUD) {
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    }
+    UINib *tweetCellNib = [UINib nibWithNibName:@"TweetCell" bundle:nil];
+    self.referenceTweetCell = [tweetCellNib instantiateWithOwner:self options:nil][0];
+    [self.tableView registerNib:tweetCellNib forCellReuseIdentifier:@"TweetCell"];
     
-    [[TwitterClient instance] homeTimelineWithSuccess:^(NSArray *tweets) {
-        self.tweets = tweets;
-        [self.tableView reloadData];
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-    } failure:^(NSError *error) {
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-        [self networkError:error];
-    }];
+    // need dummy tableview controller to attach UIRefreshControl
+    UITableViewController *tableViewController = [[UITableViewController alloc] init];
+    tableViewController.tableView = self.tableView;
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(refetchTweetsViaRefreshControl) forControlEvents:UIControlEventValueChanged];
+    tableViewController.refreshControl = self.refreshControl;
 }
+
+- (void) networkError:(NSError *)error
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Could not connect to Twitter.  Please try again." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    [alertView show];
+}
+
 - (void) signOut
 {
     [User removeCurrentUser];
@@ -88,12 +76,76 @@
 
 - (void) newTweet
 {
-    
+    ComposeTweetViewController *composeViewController = [[ComposeTweetViewController alloc] initWithTweetText:@""];
+    composeViewController.delegate = self;
+    UINavigationController *wrapperNavController = [[UINavigationController alloc] initWithRootViewController:composeViewController];
+    [self presentViewController:wrapperNavController animated:YES completion: nil];
 }
 
-- (void) networkError:(NSError *)error
+#pragma mark - ComposeTweetDelegate
+- (void) didTweet:(Tweet *)tweet
 {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Could not connect to Twitter.  Please try again." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-    [alertView show];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
+
+- (void) didCancelComposeTweet
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - UITableViewDelegate and UITableViewDataSource
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    TweetCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"TweetCell" forIndexPath:indexPath];
+    Tweet *tweet = self.tweets[indexPath.row];
+    [cell setTweet:tweet];
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    Tweet *tweet = self.tweets[indexPath.row];
+    TweetDetailViewController *detailVC = [[TweetDetailViewController alloc] initWithTweet:tweet];
+    [self.navigationController pushViewController:detailVC animated:YES];
+    [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return self.tweets.count;
+}
+
+- (void) refetchTweetsViaRefreshControl
+{
+    [[TwitterClient instance] homeTimelineWithSuccess:^(NSArray *tweets) {
+        self.tweets = tweets;
+        [self.tableView reloadData];
+        [self.refreshControl endRefreshing];
+    } failure:^(NSError *error) {
+        [self.refreshControl endRefreshing];
+        [self networkError:error];
+    }];
+}
+
+- (void) refetchTweetsAndShowProgressHUD
+{
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    [[TwitterClient instance] homeTimelineWithSuccess:^(NSArray *tweets) {
+        self.tweets = tweets;
+        [self.tableView reloadData];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    } failure:^(NSError *error) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [self networkError:error];
+    }];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    Tweet* tweet = self.tweets[indexPath.row];
+    return [self.referenceTweetCell estimateHeight:tweet];
+}
+
 @end

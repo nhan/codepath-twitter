@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Tweet.h"
 
 @interface TweetCell : UITableViewCell
+@property (strong, nonatomic) Tweet* tweet;
 
+- (CGFloat) estimateHeight:(Tweet *)tweetText;
 @end
