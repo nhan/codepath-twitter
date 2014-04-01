@@ -106,14 +106,15 @@ static NSString * const AccessTokenKey = @"com.codepath.twitter.access_token";
                                     method:@"POST"
                               requestToken:[BDBOAuthToken tokenWithQueryString:url.query]
                                    success:^(BDBOAuthToken *accessToken) {
+                                       [[NSNotificationCenter defaultCenter] removeObserver:self.applicationLaunchNotificationObserver];
                                        self.applicationLaunchNotificationObserver = nil;
                                        [self saveAccessToken:accessToken];
                                        success();
-                                       // TODO: save access token here to local storage ?
                                    }
                                    failure:^(NSError* error) {
-                                       // TODO: remove logging
                                        NSLog(@"Error during access token: %@", error.localizedDescription);
+                                       // TODO: remove logging
+                                       [[NSNotificationCenter defaultCenter] removeObserver:self.applicationLaunchNotificationObserver];
                                        self.applicationLaunchNotificationObserver = nil;
                                        failure(error);
                                    }];

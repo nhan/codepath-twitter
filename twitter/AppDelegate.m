@@ -7,16 +7,45 @@
 //
 
 #import "AppDelegate.h"
+#import "User.h"
 #import "TwitterClient.h"
+#import "HomeViewController.h"
 #import "SignInViewController.h"
+
+@interface AppDelegate ()
+@property (nonatomic, strong) UIViewController* homeViewController;
+@property (nonatomic, strong) UIViewController* signInViewController;
+@end
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
-    self.window.rootViewController = [[SignInViewController alloc] init];
+    
+    self.homeViewController = [[UINavigationController alloc] initWithRootViewController:[[HomeViewController alloc] init]];
+    self.signInViewController = [[SignInViewController alloc] init];
+    
+    if ([User currentUser]) {
+        self.window.rootViewController = self.homeViewController;
+    } else {
+        self.window.rootViewController = self.signInViewController;
+    }
+    
+    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+    [notificationCenter addObserverForName:CurrentUserSetNotification
+                                    object:nil
+                                     queue:[NSOperationQueue mainQueue]
+                                usingBlock:^(NSNotification *notification) {
+                                    self.window.rootViewController = self.homeViewController;
+                                }];
+    [notificationCenter addObserverForName:CurrentUserRemovedNotification
+                                    object:nil
+                                     queue:[NSOperationQueue mainQueue]
+                                usingBlock:^(NSNotification *notification) {
+                                    self.window.rootViewController = self.signInViewController;
+                                }];
+    
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;

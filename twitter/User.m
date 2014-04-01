@@ -58,8 +58,10 @@ static User* _currentUser;
     if (!_currentUser) {
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         NSData *data = [userDefaults objectForKey:CurrentUserKey];
-        User* currentUser = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-        _currentUser = currentUser;
+        if (data) {
+            User* currentUser = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+            _currentUser = currentUser;
+        }
     }
     return _currentUser;
 }

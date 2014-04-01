@@ -60,7 +60,7 @@
 
 - (void) errorDuringSignIn:(NSError *)error
 {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Failed to Sign In" message:@"Couldn't sign in to Twitter.  Please try again" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Couldn't sign in to Twitter.  Please try again" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
     [alertView show];
 }
 @end

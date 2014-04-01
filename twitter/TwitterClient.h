@@ -16,5 +16,4 @@ extern NSString * const TwitterClientCallbackURLKey;
 + (TwitterClient *)instance;
 - (void)loginWithSuccess:(void (^)())success failure:(void (^)(NSError* error))failure;
 - (void)currentUserWithSuccess:(void (^)(User* currentUser))success failure:(void (^)(NSError *error))failure;
-
 @end

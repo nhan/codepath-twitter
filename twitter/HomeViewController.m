@@ -7,6 +7,7 @@
 //
 
 #import "HomeViewController.h"
+#import "TwitterClient.h"
 
 @interface HomeViewController ()
 
@@ -18,7 +19,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        self.title = @"Home";
     }
     return self;
 }
@@ -26,13 +27,24 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Sign Out"
+                                                                             style:UIBarButtonItemStylePlain
+                                                                            target:self
+                                                                            action:@selector(signOut)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"New"
+                                                                              style:UIBarButtonItemStylePlain
+                                                                             target:self
+                                                                             action:@selector(newTweet)];
 }
 
-- (void)didReceiveMemoryWarning
+- (void) signOut
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    [User removeCurrentUser];
+}
+
+- (void) newTweet
+{
+    
 }
 
 @end
