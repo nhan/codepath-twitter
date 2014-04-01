@@ -8,9 +8,17 @@
 
 #import <UIKit/UIKit.h>
 #import "Tweet.h"
+#import "ComposeTweetViewController.h"
+
+
+@protocol TweetCellDelegate <NSObject>
+- (void) retweetAction:(Tweet*)tweet;
+- (void) replyAction:(Tweet*)tweet;
+- (void) favoriteAction:(Tweet*)tweet;
+@end
 
 @interface TweetCell : UITableViewCell
 @property (strong, nonatomic) Tweet* tweet;
-
+@property id<TweetCellDelegate> delegate;
 - (CGFloat) estimateHeight:(Tweet *)tweetText;
 @end

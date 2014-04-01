@@ -38,11 +38,29 @@
 
     // Configure the view for the selected state
 }
+- (IBAction)replyButtonAction:(id)sender {
+    [self.delegate replyAction:self.tweet];
+}
+- (IBAction)retweetButtonAction:(id)sender {
+    [self.delegate retweetAction:self.tweet];
+    [self refreshView];
+}
+
+- (IBAction)favoriteButtonAction:(id)sender {
+    [self.delegate favoriteAction:self.tweet];
+    [self refreshView];
+}
 
 - (void)setTweet:(Tweet *)tweet
 {
     _tweet = tweet;
-    
+    [self refreshView];
+}
+
+
+- (void) refreshView
+{
+    Tweet* tweet = self.tweet;
     if (tweet.retweetedByUser)
     {
         self.retweetLabel.text = [NSString stringWithFormat:@"%@ retweeted", tweet.retweetedByUser.name];

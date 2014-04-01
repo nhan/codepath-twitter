@@ -72,6 +72,9 @@
                         <state key="normal" image="reply_default">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
+                        <connections>
+                            <action selector="replyButtonAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="BCj-WV-rYj"/>
+                        </connections>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8gI-jB-NJl" userLabel="Retweet Button">
                         <rect key="frame" x="109" y="83" width="16" height="16"/>
@@ -83,6 +86,9 @@
                         <state key="normal" image="retweet_default">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
+                        <connections>
+                            <action selector="retweetButtonAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="Je7-KB-ARo"/>
+                        </connections>
                     </button>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d9D-IU-VAR" userLabel="Retweet Count Label">
                         <rect key="frame" x="130" y="85" width="26" height="12"/>
@@ -97,6 +103,9 @@
                         <state key="normal" image="favorite_default">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
+                        <connections>
+                            <action selector="favoriteButtonAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="z6Y-OV-wzl"/>
+                        </connections>
                     </button>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gVN-Vs-yON" userLabel="Favorite Count Label">
                         <rect key="frame" x="194" y="83" width="26" height="12"/>

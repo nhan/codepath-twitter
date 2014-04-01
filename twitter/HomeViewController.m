@@ -119,6 +119,26 @@
     [self presentViewController:wrapperNavController animated:YES completion: nil];
 }
 
+#pragma mark - TweetCellDelegate
+- (void)replyAction:(Tweet* )tweet {
+    NSString *initialText = [NSString stringWithFormat:@"@%@ ", tweet.user.screenName];
+    NSNumber *replyToTweetId = [NSNumber numberWithLongLong:tweet.tweetId];
+    ComposeTweetViewController *composeViewController = [[ComposeTweetViewController alloc] initWithTweetText:initialText replyToTweetId:replyToTweetId];
+    composeViewController.delegate = self;
+    UINavigationController *wrapperNavController = [[UINavigationController alloc] initWithRootViewController:composeViewController];
+    [self presentViewController:wrapperNavController animated:YES completion: nil];
+}
+
+- (void)retweetAction:(Tweet*)tweet {
+    if (!tweet.retweeted) {
+        [[TwitterClient instance] retweet:tweet success:nil failure:nil];
+    }
+}
+
+- (void)favoriteAction:(Tweet*)tweet {
+    [[TwitterClient instance] toggleFavoriteForTweet:tweet success:nil failure:nil];
+}
+
 #pragma mark - ComposeTweetDelegate
 - (void) didTweet:(Tweet *)tweet
 {
@@ -136,7 +156,8 @@
 {
     TweetCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"TweetCell" forIndexPath:indexPath];
     Tweet *tweet = self.tweets[indexPath.row];
-    [cell setTweet:tweet];
+    cell.tweet = tweet;
+    cell.delegate = self;
     return cell;
 }
 
