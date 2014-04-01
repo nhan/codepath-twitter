@@ -26,7 +26,8 @@
     self.homeViewController = [[UINavigationController alloc] initWithRootViewController:[[HomeViewController alloc] init]];
     self.signInViewController = [[SignInViewController alloc] init];
     
-    if ([User currentUser]) {
+    User* currentUser = [User currentUser];
+    if (currentUser) {
         self.window.rootViewController = self.homeViewController;
     } else {
         self.window.rootViewController = self.signInViewController;

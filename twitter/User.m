@@ -16,7 +16,7 @@ NSString * const CurrentUserRemovedNotification = @"com.codepath.twitter.notific
 static NSString * const CurrentUserKey = @"com.codepath.twitter.current_user";
 
 @implementation User
-static User* _currentUser;
+static User* _currentUser = nil;
 
 - (instancetype) initWithDictionary:(NSDictionary*) dict
 {
@@ -83,7 +83,9 @@ static User* _currentUser;
 + (void) removeCurrentUser
 {
     _currentUser = nil;
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:CurrentUserKey];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults removeObjectForKey:CurrentUserKey];
+    [userDefaults synchronize];
     [[NSNotificationCenter defaultCenter] postNotificationName:CurrentUserRemovedNotification object:nil];
 }
 @end
