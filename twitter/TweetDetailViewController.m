@@ -103,7 +103,7 @@
     [self.profileImageView setImageWithURL:tweet.user.profileImageURL];
     self.userNameLabel.text = tweet.user.name;
     self.userScreenNameLabel.text = [NSString stringWithFormat:@"@%@", tweet.user.screenName];
-    self.createdAtLabel.text = [tweet.createdAt formattedDateWithFormat:@"M/d/yy, HH:mm a"];
+    self.createdAtLabel.text = [tweet.createdAt formattedDateWithFormat:@"M/d/yy, h:mm a"];
     self.tweetTextLabel.text = tweet.text;
     self.retweetCountLabel.text = [NSString stringWithFormat:@"%d", tweet.retweetCount];
     self.favoriteCountLabel.text = [NSString stringWithFormat:@"%d", tweet.favoriteCount];

@@ -64,10 +64,10 @@
     if (tweet.retweetedByUser)
     {
         self.retweetLabel.text = [NSString stringWithFormat:@"%@ retweeted", tweet.retweetedByUser.name];
-        self.retweetIndicatorTopOfCellSpacing.constant = 5.0f;
+        self.retweetIndicatorTopOfCellSpacing.constant = 13.0f;
         self.retweetIndicatorHeight.constant = 16.0f;
     } else {
-        self.retweetIndicatorTopOfCellSpacing.constant = 0.0f;
+        self.retweetIndicatorTopOfCellSpacing.constant = 8.0f;
         self.retweetIndicatorHeight.constant = 0.0f;
     }
     
@@ -95,13 +95,13 @@
 - (CGFloat) estimateHeight:(Tweet *)tweet
 {
     CGFloat ret = 0.0f;
-    ret += 5; // top padding
+    ret += 13; // top padding
     
     if (tweet.retweetedByUser) { // retweet indicator
         ret += 21;
     }
     
-    ret += 15; // name line
+    ret += 16; // name line
     ret += 5; // padding
     
     // tweet text label
@@ -111,7 +111,7 @@
     
     ret += 8; // padding
     ret += 16; // button row
-    ret += 5; // bottom padding;
+    ret += 13; // bottom padding;
     
     return ret;
 }

@@ -25,7 +25,9 @@ static User* _currentUser = nil;
         self.userId = [dict[@"id"] integerValue];
         self.name = dict[@"name"];
         self.screenName = dict[@"screen_name"];
-        self.profileImageURL = [NSURL URLWithString:dict[@"profile_image_url"]];
+        NSString *urlString = dict[@"profile_image_url"];
+        urlString = [urlString stringByReplacingOccurrencesOfString:@"_normal.png" withString:@"_bigger.png"];
+        self.profileImageURL = [NSURL URLWithString:urlString];
     }
     return self;
 }
