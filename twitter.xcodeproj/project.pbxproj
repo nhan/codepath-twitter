@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		44286DE057084C678E17378B /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D720FC694524C2188510B12 /* libPods.a */; };
+		6B4F278918F391840060C3CF /* HamburgerMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B4F278718F391840060C3CF /* HamburgerMenuViewController.m */; };
+		6B4F278A18F391840060C3CF /* HamburgerMenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B4F278818F391840060C3CF /* HamburgerMenuViewController.xib */; };
 		6BE020B118E96E0000961424 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BE020B018E96E0000961424 /* Foundation.framework */; };
 		6BE020B318E96E0000961424 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BE020B218E96E0000961424 /* CoreGraphics.framework */; };
 		6BE020B518E96E0000961424 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BE020B418E96E0000961424 /* UIKit.framework */; };
@@ -48,6 +50,9 @@
 /* Begin PBXFileReference section */
 		386B999A99ED45BE8167DF09 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		5D720FC694524C2188510B12 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		6B4F278618F391840060C3CF /* HamburgerMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HamburgerMenuViewController.h; sourceTree = "<group>"; };
+		6B4F278718F391840060C3CF /* HamburgerMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HamburgerMenuViewController.m; sourceTree = "<group>"; };
+		6B4F278818F391840060C3CF /* HamburgerMenuViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HamburgerMenuViewController.xib; sourceTree = "<group>"; };
 		6BE020AD18E96E0000961424 /* twitter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = twitter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BE020B018E96E0000961424 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6BE020B218E96E0000961424 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -152,15 +157,18 @@
 				6BE0210318EB21BA00961424 /* Views */,
 				6BE020BF18E96E0000961424 /* AppDelegate.h */,
 				6BE020C018E96E0000961424 /* AppDelegate.m */,
+				6B4F278618F391840060C3CF /* HamburgerMenuViewController.h */,
+				6B4F278718F391840060C3CF /* HamburgerMenuViewController.m */,
+				6B4F278818F391840060C3CF /* HamburgerMenuViewController.xib */,
 				6BE020E218EA9BD700961424 /* HomeViewController.h */,
 				6BE020E318EA9BD700961424 /* HomeViewController.m */,
+				6BE020E418EA9BD700961424 /* HomeViewController.xib */,
 				6BE020FE18EB18E300961424 /* TweetDetailViewController.h */,
 				6BE020FF18EB18E300961424 /* TweetDetailViewController.m */,
 				6BE0210018EB18E300961424 /* TweetDetailViewController.xib */,
 				6BE020F918EB0DA500961424 /* ComposeTweetViewController.h */,
 				6BE020FA18EB0DA500961424 /* ComposeTweetViewController.m */,
 				6BE020FB18EB0DA500961424 /* ComposeTweetViewController.xib */,
-				6BE020E418EA9BD700961424 /* HomeViewController.xib */,
 				6BE020E718EA9D8800961424 /* SignInViewController.h */,
 				6BE020E818EA9D8800961424 /* SignInViewController.m */,
 				6BE020E918EA9D8800961424 /* SignInViewController.xib */,
@@ -309,6 +317,7 @@
 				6BE0210218EB18E300961424 /* TweetDetailViewController.xib in Resources */,
 				6BE020EB18EA9D8800961424 /* SignInViewController.xib in Resources */,
 				6BE020F818EAE9B200961424 /* TweetCell.xib in Resources */,
+				6B4F278A18F391840060C3CF /* HamburgerMenuViewController.xib in Resources */,
 				6BE020BB18E96E0000961424 /* InfoPlist.strings in Resources */,
 				6BE020FD18EB0DA500961424 /* ComposeTweetViewController.xib in Resources */,
 				6BE020C318E96E0000961424 /* Images.xcassets in Resources */,
@@ -373,6 +382,7 @@
 				6BE020BD18E96E0000961424 /* main.m in Sources */,
 				6BE020E518EA9BD700961424 /* HomeViewController.m in Sources */,
 				6BE020F718EAE9B200961424 /* TweetCell.m in Sources */,
+				6B4F278918F391840060C3CF /* HamburgerMenuViewController.m in Sources */,
 				6BE0210118EB18E300961424 /* TweetDetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

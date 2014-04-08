@@ -10,6 +10,7 @@
 #import "User.h"
 #import "TwitterClient.h"
 #import "HomeViewController.h"
+#import "HamburgerMenuViewController.h"
 #import "SignInViewController.h"
 
 @interface AppDelegate ()
@@ -28,7 +29,7 @@
     
     User* currentUser = [User currentUser];
     if (currentUser) {
-        self.window.rootViewController = self.homeViewController;
+        self.window.rootViewController = [[HamburgerMenuViewController alloc] init];// self.homeViewController;
     } else {
         self.window.rootViewController = self.signInViewController;
     }
