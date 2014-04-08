@@ -15,7 +15,9 @@
 
 @interface AppDelegate ()
 @property (nonatomic, strong) HamburgerMenuController* menuController;
+@property (nonatomic, strong) NSArray* viewControllersInMenu;
 @property (nonatomic, strong) UIViewController* homeViewController;
+@property (nonatomic, strong) UIViewController* mentionsViewController;
 @property (nonatomic, strong) UIViewController* signInViewController;
 @end
 
@@ -26,9 +28,8 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     
-    // TODO: ADD SIGNOUT BUTTON IN MENU
-    self.homeViewController = [[UINavigationController alloc] initWithRootViewController:[[HomeViewController alloc] init]];
     self.signInViewController = [[SignInViewController alloc] init];
+    self.viewControllersInMenu = @[self.homeViewController, self.mentionsViewController];
     self.menuController = [[HamburgerMenuController alloc] init];
     self.menuController.delegate = self;
     
@@ -39,33 +40,66 @@
         self.window.rootViewController = self.signInViewController;
     }
     
-    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-    [notificationCenter addObserverForName:CurrentUserSetNotification
-                                    object:nil
-                                     queue:[NSOperationQueue mainQueue]
-                                usingBlock:^(NSNotification *notification) {
-                                    self.window.rootViewController = self.homeViewController;
-                                }];
-    [notificationCenter addObserverForName:CurrentUserRemovedNotification
-                                    object:nil
-                                     queue:[NSOperationQueue mainQueue]
-                                usingBlock:^(NSNotification *notification) {
-                                    self.window.rootViewController = self.signInViewController;
-                                }];
-    
+    [self registerUserNotifications];
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;
 }
 
+- (UIViewController *)homeViewController
+{
+    if (!_homeViewController) {
+        HomeViewController*  homeViewController = [[HomeViewController alloc] initWithDataLoadingBlockWithSuccessFailure:^(void (^success)(NSArray *), void (^failure)(NSError *)) {
+            [[TwitterClient instance] homeTimelineWithSuccess:success failure:failure];
+        }];
+        homeViewController.title = @"Home";
+        [[NSNotificationCenter defaultCenter] addObserverForName:NewTweetPostedNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification) {
+            Tweet* tweet = notification.userInfo[NewTweetPostedNotificationKey];
+            [homeViewController.tweets insertObject:tweet atIndex:0];
+        }];
+        _homeViewController = [[UINavigationController alloc] initWithRootViewController:homeViewController];
+    }
+    
+    return _homeViewController;
+}
+
+- (UIViewController *)mentionsViewController
+{
+    if (!_mentionsViewController) {
+        HomeViewController*  mentionsViewController = [[HomeViewController alloc] initWithDataLoadingBlockWithSuccessFailure:^(void (^success)(NSArray *), void (^failure)(NSError *)) {
+            [[TwitterClient instance] mentionsTimelineWithSuccess:success failure:failure];
+        }];
+        mentionsViewController.title = @"Mentions";
+        _mentionsViewController = [[UINavigationController alloc] initWithRootViewController:mentionsViewController];
+    }
+    
+    return _mentionsViewController;
+}
+
+- (void) registerUserNotifications
+{
+    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+    [notificationCenter addObserverForName:CurrentUserSetNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification) {
+        self.window.rootViewController = self.menuController;
+    }];
+    [notificationCenter addObserverForName:CurrentUserRemovedNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification) {
+        self.window.rootViewController = self.signInViewController;
+    }];
+}
+
+- (void) signOut
+{
+    [User removeCurrentUser];
+}
+
 - (NSInteger)numberOfItemsInMenu:(HamburgerMenuController *)hamburgerMenuController
 {
-    return 1;
+    return self.viewControllersInMenu.count;
 }
 
 - (UIViewController *)viewControllerAtIndex:(NSInteger)index hamburgerMenuController:(HamburgerMenuController *)hamburgerMenuController
 {
-    return self.homeViewController;
+    return self.viewControllersInMenu[index];
 }
 
 - (BOOL) application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation

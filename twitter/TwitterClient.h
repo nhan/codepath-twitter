@@ -18,6 +18,7 @@ extern NSString * const TwitterClientCallbackURLKey;
 - (void)loginWithSuccess:(void (^)())success failure:(void (^)(NSError* error))failure;
 - (void)currentUserWithSuccess:(void (^)(User* currentUser))success failure:(void (^)(NSError *error))failure;
 - (void)homeTimelineWithSuccess:(void (^)(NSArray* tweets))success failure:(void (^)(NSError *error))failure;
+- (void)mentionsTimelineWithSuccess:(void (^)(NSArray *))success failure:(void (^)(NSError *))failure;
 - (void)postTweetWithText:(NSString*)text replyToTweetId:(NSNumber*)replyToId success:(void (^)(Tweet* tweet))success failure:(void (^)(NSError *error))failure;
 - (void)toggleFavoriteForTweet:(Tweet *)tweet success:(void (^)(Tweet *))success failure:(void (^)(NSError *))failure;
 - (void)retweet:(Tweet*)tweet success:(void (^)(Tweet* tweet))success failure:(void (^)(NSError *error))failure;

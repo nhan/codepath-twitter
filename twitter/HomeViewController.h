@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "ComposeTweetViewController.h"
+#import "TweetTableViewController.h"
 #import "TweetCell.h"
 
-@interface HomeViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, ComposeTweetDelegate, TweetCellDelegate>
-
+@interface HomeViewController : UIViewController<TweetTableViewDelegate, ComposeTweetDelegate>
+@property (strong, nonatomic) NSMutableArray* tweets;
+- (id) initWithDataLoadingBlockWithSuccessFailure:(void (^)(void (^success)(NSArray *), void (^failure)(NSError *))) block;
 @end

@@ -75,24 +75,12 @@ static NSString * const AccessTokenKey = @"com.codepath.twitter.access_token";
 
 - (void)homeTimelineWithSuccess:(void (^)(NSArray *))success failure:(void (^)(NSError *))failure
 {
-    [self GET:@"1.1/statuses/home_timeline.json"
-   parameters:nil
-      success:^(AFHTTPRequestOperation *operation, id responseObject) {
-          if ([responseObject isKindOfClass:[NSArray class]]) {
-              NSArray *response = (NSArray*) responseObject;
-              NSMutableArray *parsedTweets = [[NSMutableArray alloc] initWithCapacity:response.count];
-              for (NSDictionary *tweetDict in response) {
-                  Tweet* tweet = [[Tweet alloc] initWithDictionary:tweetDict];
-                  [parsedTweets addObject:tweet];
-              }
-              success(parsedTweets);
-          } else {
-              failure([NSError errorWithDomain:@"Home Timeline" code:400 userInfo:nil]);
-          }
-      }
-      failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        failure(error);
-      }];
+    [self timeline:@"1.1/statuses/home_timeline.json" success:success failure:failure];
+}
+
+- (void)mentionsTimelineWithSuccess:(void (^)(NSArray *))success failure:(void (^)(NSError *))failure
+{
+    [self timeline:@"1.1/statuses/mentions_timeline.json" success:success failure:failure];
 }
 
 - (void)postTweetWithText:(NSString*)text replyToTweetId:(NSNumber*)replyToId success:(void (^)(Tweet* tweet))success failure:(void (^)(NSError *error))failure
@@ -203,6 +191,27 @@ static NSString * const AccessTokenKey = @"com.codepath.twitter.access_token";
 }
 
 #pragma mark - Private methods
+- (void)timeline:(NSString*)resource success:(void (^)(NSArray *))success failure:(void (^)(NSError *))failure
+{
+    [self GET:resource
+   parameters:nil
+      success:^(AFHTTPRequestOperation *operation, id responseObject) {
+          if ([responseObject isKindOfClass:[NSArray class]]) {
+              NSArray *response = (NSArray*) responseObject;
+              NSMutableArray *parsedTweets = [[NSMutableArray alloc] initWithCapacity:response.count];
+              for (NSDictionary *tweetDict in response) {
+                  Tweet* tweet = [[Tweet alloc] initWithDictionary:tweetDict];
+                  [parsedTweets addObject:tweet];
+              }
+              success(parsedTweets);
+          } else {
+              failure([NSError errorWithDomain:@"Home Timeline" code:400 userInfo:nil]);
+          }
+      }
+      failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+          failure(error);
+      }];
+}
 
 - (void) deleteTweetWithId:(unsigned long long)tweetId success:(void (^)())success failure:(void (^)(NSError *))failure
 {

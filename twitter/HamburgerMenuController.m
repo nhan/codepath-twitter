@@ -77,8 +77,14 @@ static CGFloat const DefaultMaxAnimationDuration = 0.5;
 - (void) setActiveViewController:(UIViewController *)activeViewController
 {
     // TODO: CALL ALL THOSE CHILD VIEW CONTROLLER METHODS
+    CGRect frame;
+    if (_activeViewController) {
+        frame = _activeViewController.view.frame;
+    } else {
+        frame = self.view.frame;
+    }
     _activeViewController = activeViewController;
-    [self updateActiveView];
+    [self updateActiveViewWithFrame:frame];
 }
 
 
@@ -129,7 +135,7 @@ static CGFloat const DefaultMaxAnimationDuration = 0.5;
         menuItem.hamburgerMenuController = self;
     }
     [self.tableView reloadData];
-    [self updateActiveView];
+    [self updateActiveViewWithFrame:self.view.frame];
 }
 
 - (void)revealMenuWithDuration:(NSTimeInterval)duration
@@ -147,7 +153,7 @@ static CGFloat const DefaultMaxAnimationDuration = 0.5;
 
 #pragma mark - private methods
 
-- (void) updateActiveView
+- (void) updateActiveViewWithFrame:(CGRect)frame;
 {
     if (self.activeViewController && ![self.activeViewController.view isDescendantOfView:self.view]) {
         for (UIView* view in [self.view subviews]) {
@@ -155,6 +161,7 @@ static CGFloat const DefaultMaxAnimationDuration = 0.5;
                 [view removeFromSuperview];
             }
         }
+        self.activeViewController.view.frame = frame;
         [self.view addSubview:self.activeViewController.view];
     }
 }

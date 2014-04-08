@@ -17,7 +17,6 @@
 @protocol HamburgerMenuDelegate <NSObject>
 @required
 - (NSInteger) numberOfItemsInMenu:(HamburgerMenuController*)hamburgerMenuController;
-
 @optional
 // For any given index at least one of viewControllerAtIndex:hamburgerMenuController:
 // and cellForMenuItemAtIndex:hamhamburgerMenuController: must be implemented!
