@@ -4,8 +4,9 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HamburgerMenuViewController">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HamburgerMenuController">
             <connections>
+                <outlet property="tableView" destination="GOx-Zv-PZ2" id="tms-TW-vKc"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -13,8 +14,20 @@
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-            <color key="backgroundColor" red="1" green="0.68916390127763083" blue="0.7784638013250802" alpha="1" colorSpace="calibratedRGB"/>
+            <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="GOx-Zv-PZ2">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </tableView>
+            </subviews>
             <gestureRecognizers/>
+            <constraints>
+                <constraint firstItem="GOx-Zv-PZ2" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="7YJ-pC-3kc"/>
+                <constraint firstAttribute="bottom" secondItem="GOx-Zv-PZ2" secondAttribute="bottom" id="ao5-ys-vI1"/>
+                <constraint firstAttribute="trailing" secondItem="GOx-Zv-PZ2" secondAttribute="trailing" id="bjy-NA-DjJ"/>
+                <constraint firstItem="GOx-Zv-PZ2" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="oBO-AA-gAk"/>
+            </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
             <connections>

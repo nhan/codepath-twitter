@@ -10,10 +10,11 @@
 #import "User.h"
 #import "TwitterClient.h"
 #import "HomeViewController.h"
-#import "HamburgerMenuViewController.h"
+#import "HamburgerMenuController.h"
 #import "SignInViewController.h"
 
 @interface AppDelegate ()
+@property (nonatomic, strong) HamburgerMenuController* menuController;
 @property (nonatomic, strong) UIViewController* homeViewController;
 @property (nonatomic, strong) UIViewController* signInViewController;
 @end
@@ -26,10 +27,12 @@
     
     self.homeViewController = [[UINavigationController alloc] initWithRootViewController:[[HomeViewController alloc] init]];
     self.signInViewController = [[SignInViewController alloc] init];
+    self.menuController = [[HamburgerMenuController alloc] init];
+    self.menuController.delegate = self;
     
     User* currentUser = [User currentUser];
     if (currentUser) {
-        self.window.rootViewController = [[HamburgerMenuViewController alloc] init];// self.homeViewController;
+        self.window.rootViewController = self.menuController;
     } else {
         self.window.rootViewController = self.signInViewController;
     }
@@ -51,6 +54,16 @@
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;
+}
+
+- (NSInteger)numberOfItemsInMenu:(HamburgerMenuController *)hamburgerMenuController
+{
+    return 1;
+}
+
+- (UIViewController *)viewControllerAtIndex:(NSInteger)index hamburgerMenuController:(HamburgerMenuController *)hamburgerMenuController
+{
+    return self.homeViewController;
 }
 
 - (BOOL) application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
