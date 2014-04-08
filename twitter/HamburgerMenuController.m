@@ -58,7 +58,7 @@ static CGFloat const DefaultMaxAnimationDuration = 0.5;
     self.tableView.dataSource = self;
     
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"DefaultCell"];
-    [self updateActiveView];
+    [self reloadMenuItems];
 }
 
 #pragma mark - setters
@@ -74,6 +74,7 @@ static CGFloat const DefaultMaxAnimationDuration = 0.5;
 
 - (void) setActiveViewController:(UIViewController *)activeViewController
 {
+    // TODO: CALL ALL THOSE CHILD VIEW CONTROLLER METHODS
     _activeViewController = activeViewController;
     [self updateActiveView];
 }
@@ -126,6 +127,7 @@ static CGFloat const DefaultMaxAnimationDuration = 0.5;
         menuItem.hamburgerMenuController = self;
     }
     [self.tableView reloadData];
+    [self updateActiveView];
 }
 
 - (void)revealMenuWithDuration:(NSTimeInterval)duration

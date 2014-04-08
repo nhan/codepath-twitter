@@ -7,6 +7,7 @@
 //
 
 #import <MBProgressHUD.h>
+#import "HamburgerMenuController.h"
 #import "HomeViewController.h"
 #import "TweetDetailViewController.h"
 #import "TwitterClient.h"
@@ -41,10 +42,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Sign Out"
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Menu"
                                                                              style:UIBarButtonItemStylePlain
                                                                             target:self
-                                                                            action:@selector(signOut)];
+                                                                            action:@selector(toggleMenu)];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"New"
                                                                               style:UIBarButtonItemStylePlain
                                                                              target:self
@@ -73,6 +74,17 @@
 {
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Could not connect to Twitter.  Please try again." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
     [alertView show];
+}
+
+- (void) toggleMenu
+{
+    HamburgerMenuController* menuController = self.navigationController.hamburgerMenuController;
+    NSLog(@"Hamburger Menu %@", menuController);
+    if (menuController.isMenuRevealed) {
+        [menuController hideMenuWithDuration:menuController.maxAnimationDuration];
+    } else {
+        [menuController revealMenuWithDuration:menuController.maxAnimationDuration];
+    }
 }
 
 - (void) signOut
