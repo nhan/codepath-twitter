@@ -16,6 +16,7 @@
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="LV4-JD-mm4" userLabel="Profile Image">
                         <rect key="frame" x="8" y="34" width="48" height="48"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstAttribute="width" constant="48" id="Xr7-y9-0Kv"/>
                             <constraint firstAttribute="height" constant="48" id="rkr-mp-0v2"/>

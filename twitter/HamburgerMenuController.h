@@ -23,6 +23,7 @@
 - (UIViewController*) viewControllerAtIndex:(NSInteger)index hamburgerMenuController:(HamburgerMenuController*)hamburgerMenuController;
 - (UITableViewCell*) cellForMenuItemAtIndex:(NSInteger)index hamburgerMenuController:(HamburgerMenuController*)hamburgerMenuController;
 - (CGFloat) heightForItemAtIndex:(NSInteger)index hamburgerMenuController:(HamburgerMenuController*)hamburgerMenuController;
+- (void) didSelectItemAtIndex:(NSInteger)index hamburgerMenuController:(HamburgerMenuController*)hamburgerMenuController;
 @end
 
 @interface HamburgerMenuController : UIViewController<UITableViewDataSource, UITableViewDelegate>

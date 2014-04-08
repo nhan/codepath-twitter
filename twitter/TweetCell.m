@@ -29,7 +29,12 @@
 
 - (void)awakeFromNib
 {
-    // Initialization code
+    [self.profileImageView setUserInteractionEnabled:YES];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(profileTapAction:)];
+    [tap setNumberOfTouchesRequired:1];
+    [tap setNumberOfTapsRequired:1];
+    [self.profileImageView addGestureRecognizer:tap];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
@@ -50,13 +55,17 @@
     [self.delegate favoriteAction:self.tweet];
     [self refreshView];
 }
+- (IBAction)profileTapAction:(UITapGestureRecognizer *)sender
+{
+    [self.delegate profileAction:self.tweet.user];
+
+}
 
 - (void)setTweet:(Tweet *)tweet
 {
     _tweet = tweet;
     [self refreshView];
 }
-
 
 - (void) refreshView
 {
@@ -72,6 +81,7 @@
     }
     
     [self.profileImageView setImageWithURL:tweet.user.profileImageURL];
+
     self.nameLabel.text = tweet.user.name;
     self.screenNameLabel.text = [NSString stringWithFormat:@"@%@", tweet.user.screenName];
     self.createdAtLabel.text = tweet.createdAt.shortTimeAgoSinceNow;

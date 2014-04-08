@@ -12,6 +12,8 @@
 		6B4F278A18F391840060C3CF /* HamburgerMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B4F278818F391840060C3CF /* HamburgerMenuController.xib */; };
 		6B4F279618F4370C0060C3CF /* TweetTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B4F279418F4370C0060C3CF /* TweetTableViewController.m */; };
 		6B4F279718F4370C0060C3CF /* TweetTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B4F279518F4370C0060C3CF /* TweetTableViewController.xib */; };
+		6B4F279C18F47CE10060C3CF /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B4F279A18F47CE10060C3CF /* ProfileViewController.m */; };
+		6B4F279D18F47CE10060C3CF /* ProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B4F279B18F47CE10060C3CF /* ProfileViewController.xib */; };
 		6BE020B118E96E0000961424 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BE020B018E96E0000961424 /* Foundation.framework */; };
 		6BE020B318E96E0000961424 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BE020B218E96E0000961424 /* CoreGraphics.framework */; };
 		6BE020B518E96E0000961424 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BE020B418E96E0000961424 /* UIKit.framework */; };
@@ -58,6 +60,9 @@
 		6B4F279318F4370C0060C3CF /* TweetTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweetTableViewController.h; sourceTree = "<group>"; };
 		6B4F279418F4370C0060C3CF /* TweetTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TweetTableViewController.m; sourceTree = "<group>"; };
 		6B4F279518F4370C0060C3CF /* TweetTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TweetTableViewController.xib; sourceTree = "<group>"; };
+		6B4F279918F47CE10060C3CF /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
+		6B4F279A18F47CE10060C3CF /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
+		6B4F279B18F47CE10060C3CF /* ProfileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileViewController.xib; sourceTree = "<group>"; };
 		6BE020AD18E96E0000961424 /* twitter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = twitter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BE020B018E96E0000961424 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6BE020B218E96E0000961424 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -179,6 +184,9 @@
 				6BE020E218EA9BD700961424 /* TimelineViewController.h */,
 				6BE020E318EA9BD700961424 /* TimelineViewController.m */,
 				6BE020E418EA9BD700961424 /* TimelineViewController.xib */,
+				6B4F279918F47CE10060C3CF /* ProfileViewController.h */,
+				6B4F279A18F47CE10060C3CF /* ProfileViewController.m */,
+				6B4F279B18F47CE10060C3CF /* ProfileViewController.xib */,
 				6BE020FE18EB18E300961424 /* TweetDetailViewController.h */,
 				6BE020FF18EB18E300961424 /* TweetDetailViewController.m */,
 				6BE0210018EB18E300961424 /* TweetDetailViewController.xib */,
@@ -338,6 +346,7 @@
 				6BE020BB18E96E0000961424 /* InfoPlist.strings in Resources */,
 				6BE020FD18EB0DA500961424 /* ComposeTweetViewController.xib in Resources */,
 				6BE020C318E96E0000961424 /* Images.xcassets in Resources */,
+				6B4F279D18F47CE10060C3CF /* ProfileViewController.xib in Resources */,
 				6BE020E618EA9BD700961424 /* TimelineViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -399,6 +408,7 @@
 				6BE020BD18E96E0000961424 /* main.m in Sources */,
 				6BE020E518EA9BD700961424 /* TimelineViewController.m in Sources */,
 				6BE020F718EAE9B200961424 /* TweetCell.m in Sources */,
+				6B4F279C18F47CE10060C3CF /* ProfileViewController.m in Sources */,
 				6B4F279618F4370C0060C3CF /* TweetTableViewController.m in Sources */,
 				6B4F278918F391840060C3CF /* HamburgerMenuController.m in Sources */,
 				6BE0210118EB18E300961424 /* TweetDetailViewController.m in Sources */,

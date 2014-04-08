@@ -121,9 +121,14 @@ static CGFloat const DefaultMaxAnimationDuration = 0.5;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UIViewController *selectedViewController = [self.delegate viewControllerAtIndex:indexPath.row hamburgerMenuController:self];
-    self.activeViewController = selectedViewController;
-    [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
-    [self hideMenuWithDuration:self.maxAnimationDuration];
+    
+    if (selectedViewController) {
+        self.activeViewController = selectedViewController;
+        [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
+        [self hideMenuWithDuration:self.maxAnimationDuration];
+    }
+    
+    [self.delegate didSelectItemAtIndex:indexPath.row hamburgerMenuController:self];
 }
 
 #pragma mark - public methods

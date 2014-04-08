@@ -73,14 +73,19 @@ static NSString * const AccessTokenKey = @"com.codepath.twitter.access_token";
       }];
 }
 
+- (void)userTimeLine:(User *) user success:(void (^)(NSArray *))success failure:(void (^)(NSError *))failure
+{
+    [self timeline:@"1.1/statuses/user_timeline.json" success:success failure:failure params:@{@"user_id": [NSNumber numberWithInt:user.userId]}];
+}
+
 - (void)homeTimelineWithSuccess:(void (^)(NSArray *))success failure:(void (^)(NSError *))failure
 {
-    [self timeline:@"1.1/statuses/home_timeline.json" success:success failure:failure];
+    [self timeline:@"1.1/statuses/home_timeline.json" success:success failure:failure params:nil];
 }
 
 - (void)mentionsTimelineWithSuccess:(void (^)(NSArray *))success failure:(void (^)(NSError *))failure
 {
-    [self timeline:@"1.1/statuses/mentions_timeline.json" success:success failure:failure];
+    [self timeline:@"1.1/statuses/mentions_timeline.json" success:success failure:failure params:nil];
 }
 
 - (void)postTweetWithText:(NSString*)text replyToTweetId:(NSNumber*)replyToId success:(void (^)(Tweet* tweet))success failure:(void (^)(NSError *error))failure
@@ -191,10 +196,10 @@ static NSString * const AccessTokenKey = @"com.codepath.twitter.access_token";
 }
 
 #pragma mark - Private methods
-- (void)timeline:(NSString*)resource success:(void (^)(NSArray *))success failure:(void (^)(NSError *))failure
+- (void)timeline:(NSString*)resource success:(void (^)(NSArray *))success failure:(void (^)(NSError *))failure params:(NSDictionary *)params
 {
     [self GET:resource
-   parameters:nil
+   parameters:params
       success:^(AFHTTPRequestOperation *operation, id responseObject) {
           if ([responseObject isKindOfClass:[NSArray class]]) {
               NSArray *response = (NSArray*) responseObject;

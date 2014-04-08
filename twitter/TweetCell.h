@@ -15,6 +15,7 @@
 - (void) retweetAction:(Tweet*)tweet;
 - (void) replyAction:(Tweet*)tweet;
 - (void) favoriteAction:(Tweet*)tweet;
+- (void) profileAction:(User*)user;
 @end
 
 @interface TweetCell : UITableViewCell

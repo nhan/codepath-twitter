@@ -9,6 +9,7 @@
 #import "TweetTableViewController.h"
 #import "TwitterClient.h"
 #import "TweetDetailViewController.h"
+#import "ProfileViewController.h"
 
 
 @interface TweetTableViewController ()
@@ -44,7 +45,8 @@
 }
 
 #pragma mark - TweetCellDelegate
-- (void)replyAction:(Tweet* )tweet {
+- (void)replyAction:(Tweet* )tweet
+{
     NSString *initialText = [NSString stringWithFormat:@"@%@ ", tweet.user.screenName];
     NSNumber *replyToTweetId = [NSNumber numberWithLongLong:tweet.tweetId];
     ComposeTweetViewController *composeViewController = [[ComposeTweetViewController alloc] initWithTweetText:initialText replyToTweetId:replyToTweetId];
@@ -53,7 +55,8 @@
     [self.delegate.navigationController presentViewController:wrapperNavController animated:YES completion: nil];
 }
 
-- (void)retweetAction:(Tweet*)tweet {
+- (void)retweetAction:(Tweet*)tweet
+{
     if (!tweet.retweeted) {
         [[TwitterClient instance] retweet:tweet success:nil failure:nil];
     } else {
@@ -61,8 +64,17 @@
     }
 }
 
-- (void)favoriteAction:(Tweet*)tweet {
+- (void)favoriteAction:(Tweet*)tweet
+{
     [[TwitterClient instance] toggleFavoriteForTweet:tweet success:nil failure:nil];
+}
+
+- (void)profileAction:(User *)user
+{
+
+    UIViewController* profileVC= [[ProfileViewController alloc] initWithUser:user];
+    profileVC.title = user.screenName;
+    [self.delegate.navigationController pushViewController:profileVC animated:YES];
 }
 
 #pragma mark - ComposeTweetDelegate

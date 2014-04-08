@@ -25,9 +25,17 @@ static User* _currentUser = nil;
         self.userId = [dict[@"id"] integerValue];
         self.name = dict[@"name"];
         self.screenName = dict[@"screen_name"];
-        NSString *urlString = dict[@"profile_image_url"];
-        urlString = [urlString stringByReplacingOccurrencesOfString:@"_normal.png" withString:@"_bigger.png"];
-        self.profileImageURL = [NSURL URLWithString:urlString];
+        self.tweetCount = [dict[@"statuses_count"] integerValue];
+        self.followingCount = [dict[@"friends_count"] integerValue];
+        self.followerCount = [dict[@"followers_count"] integerValue];
+        
+        NSString *profileImageURLString = dict[@"profile_image_url"];
+        profileImageURLString = [profileImageURLString stringByReplacingOccurrencesOfString:@"_normal.png" withString:@"_bigger.png"];
+        self.profileImageURL = [NSURL URLWithString:profileImageURLString];
+        
+        NSString *bannerURLString = dict[@"profile_banner_url"];
+        bannerURLString = [NSString stringWithFormat:@"%@/mobile_retina", bannerURLString];
+        self.bannerImageURL = [NSURL URLWithString:bannerURLString];
     }
     return self;
 }
@@ -38,7 +46,12 @@ static User* _currentUser = nil;
     [encoder encodeInteger:self.userId forKey:@"userId"];
     [encoder encodeObject:self.name forKey:@"name"];
     [encoder encodeObject:self.screenName forKey:@"screenName"];
+    [encoder encodeInteger:self.tweetCount forKey:@"tweetCount"];
+    [encoder encodeInteger:self.followingCount forKey:@"followingCount"];
+    [encoder encodeInteger:self.followerCount forKey:@"followerCount"];
     [encoder encodeObject:self.profileImageURL forKey:@"profileImageURL"];
+    [encoder encodeObject:self.bannerImageURL forKey:@"bannerImageURL"];
+
 }
 
 - (id)initWithCoder:(NSCoder *)decoder
@@ -48,7 +61,11 @@ static User* _currentUser = nil;
         self.userId = [decoder decodeIntegerForKey:@"userId"];
         self.name = [decoder decodeObjectForKey:@"name"];
         self.screenName = [decoder decodeObjectForKey:@"screenName"];
+        self.tweetCount = [decoder decodeIntegerForKey:@"tweetCount"];
+        self.followingCount = [decoder decodeIntegerForKey:@"followingCount"];
+        self.followerCount = [decoder decodeIntegerForKey:@"followerCount"];
         self.profileImageURL = [decoder decodeObjectForKey:@"profileImageURL"];
+        self.bannerImageURL = [decoder decodeObjectForKey:@"bannerImageURL"];
     }
     return self;
 }

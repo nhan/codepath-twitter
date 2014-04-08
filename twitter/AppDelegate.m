@@ -10,6 +10,7 @@
 #import "User.h"
 #import "TwitterClient.h"
 #import "TimelineViewController.h"
+#import "ProfileViewController.h"
 #import "HamburgerMenuController.h"
 #import "SignInViewController.h"
 
@@ -18,6 +19,7 @@
 @property (nonatomic, strong) NSArray* viewControllersInMenu;
 @property (nonatomic, strong) UIViewController* homeViewController;
 @property (nonatomic, strong) UIViewController* mentionsViewController;
+@property (nonatomic, strong) ProfileViewController* myProfileViewController;
 @property (nonatomic, strong) UIViewController* signInViewController;
 @end
 
@@ -29,7 +31,9 @@
     
     
     self.signInViewController = [[SignInViewController alloc] init];
-    self.viewControllersInMenu = @[self.homeViewController, self.mentionsViewController];
+    self.viewControllersInMenu = @[self.homeViewController,
+                                   self.mentionsViewController,
+                                   [[UINavigationController alloc] initWithRootViewController:self.myProfileViewController]];
     self.menuController = [[HamburgerMenuController alloc] init];
     self.menuController.delegate = self;
     
@@ -80,10 +84,22 @@
     return _mentionsViewController;
 }
 
+- (UIViewController *)myProfileViewController
+{
+    if (!_myProfileViewController) {
+        ProfileViewController *myProfileViewController = [[ProfileViewController alloc] initWithUser:[User currentUser]];
+        myProfileViewController.title = @"My Profile";
+        _myProfileViewController = myProfileViewController;
+    }
+    
+    return _myProfileViewController;
+}
+
 - (void) registerUserNotifications
 {
     NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
     [notificationCenter addObserverForName:CurrentUserSetNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification) {
+        self.myProfileViewController.user = [User currentUser];
         self.window.rootViewController = self.menuController;
     }];
     [notificationCenter addObserverForName:CurrentUserRemovedNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification) {
@@ -113,6 +129,15 @@
                                                                userInfo:[NSDictionary dictionaryWithObject:url forKey:TwitterClientCallbackURLKey]];
     [[NSNotificationCenter defaultCenter] postNotification:notification];
     return YES;
+}
+
+- (void)didSelectItemAtIndex:(NSInteger)index hamburgerMenuController:(HamburgerMenuController *)hamburgerMenuController
+{
+    UIViewController *selectedController = [self viewControllerAtIndex:index hamburgerMenuController:hamburgerMenuController];
+    if ([selectedController isKindOfClass:[UINavigationController class]]) {
+        UINavigationController *navController = (UINavigationController *) selectedController;
+        [navController popToRootViewControllerAnimated:YES];
+    }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
