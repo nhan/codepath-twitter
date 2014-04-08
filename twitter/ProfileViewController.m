@@ -75,7 +75,7 @@
     [self.profileImage setImageWithURL:self.user.profileImageURL];
     [self.backgroundImage setImageWithURL:self.user.bannerImageURL];
     self.nameLabel.text = self.user.name;
-    self.screennameLabel.text = self.user.screenName;
+    self.screennameLabel.text = [NSString stringWithFormat:@"@%@", self.user.screenName];
     self.tweetCountLabel.text = [NSString stringWithFormat:@"%d", self.user.tweetCount];
     self.followingCountLabel.text = [NSString stringWithFormat:@"%d", self.user.followingCount];
     self.followerCountLabel.text = [NSString stringWithFormat:@"%d", self.user.followerCount];
@@ -132,6 +132,7 @@
 - (void) didTweet:(Tweet *)tweet
 {
     [self dismissViewControllerAnimated:YES completion:nil];
+    [self.tweets insertObject:tweet atIndex:0];
 }
 
 - (void) didCancelComposeTweet

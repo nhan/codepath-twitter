@@ -32,6 +32,7 @@ static CGFloat const DefaultRevealOffsetFactor = .75f;
 static CGFloat const DefaultMinTranslationToTriggerChange = 20.0f;
 static CGFloat const DefaultMaxAnimationDuration = 0.5;
 
+
 @interface HamburgerMenuController ()
 @property (nonatomic, assign) BOOL isMenuRevealed;
 @property (nonatomic, strong) UIViewController* activeViewController;
@@ -39,11 +40,13 @@ static CGFloat const DefaultMaxAnimationDuration = 0.5;
 @end
 
 @implementation HamburgerMenuController
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        self.backGroundColor = [UIColor colorWithWhite:0.15 alpha:1];
+        self.defaultTextColor = [UIColor colorWithWhite:0.90 alpha:1];
+        self.selectionColor = [UIColor colorWithRed:0.4 green:0.4 blue:0.5 alpha:1];
         self.menuRevealOffsetFactor = DefaultRevealOffsetFactor;
         self.minTranslationToTriggerChange = DefaultMinTranslationToTriggerChange;
         self.maxAnimationDuration = DefaultMaxAnimationDuration;
@@ -58,8 +61,15 @@ static CGFloat const DefaultMaxAnimationDuration = 0.5;
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    self.tableView.backgroundColor = self.backGroundColor;
     
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"DefaultCell"];
+
+    // hides empty separators
+    UIView *dummyFooter = [[UIView alloc] initWithFrame:CGRectZero];
+    dummyFooter.backgroundColor = [UIColor clearColor];
+    [self.tableView setTableFooterView:dummyFooter];
+
     [self reloadMenuItems];
 }
 
@@ -99,6 +109,13 @@ static CGFloat const DefaultMaxAnimationDuration = 0.5;
 
     if (ret == nil && [self.delegate respondsToSelector:@selector(viewControllerAtIndex:hamburgerMenuController:)]) {
         ret = [self.tableView dequeueReusableCellWithIdentifier:@"DefaultCell" forIndexPath:indexPath];
+        ret.backgroundColor = self.backGroundColor;
+        if (ret.selectedBackgroundView.backgroundColor != self.selectionColor) { // only allocate once per cell
+            NSLog(@"Getting Cell");
+            ret.selectedBackgroundView = [[UIView alloc] initWithFrame:ret.bounds];
+            ret.selectedBackgroundView.backgroundColor = self.selectionColor;
+        }
+        ret.textLabel.textColor = self.defaultTextColor;
         ret.textLabel.text = [self.delegate viewControllerAtIndex:indexPath.row hamburgerMenuController:self].title;
     }
     return ret;
@@ -127,10 +144,10 @@ static CGFloat const DefaultMaxAnimationDuration = 0.5;
     
     if (selectedViewController) {
         self.activeViewController = selectedViewController;
-        [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
         [self hideMenuWithDuration:self.maxAnimationDuration];
     }
-    
+
+    [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
     [self.delegate didSelectItemAtIndex:indexPath.row hamburgerMenuController:self];
 }
 

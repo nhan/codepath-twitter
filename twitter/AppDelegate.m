@@ -21,6 +21,7 @@
 @property (nonatomic, strong) UIViewController* mentionsViewController;
 @property (nonatomic, strong) ProfileViewController* myProfileViewController;
 @property (nonatomic, strong) UIViewController* signInViewController;
+@property (nonatomic, strong) UITableViewCell* spacerCell;
 @property (nonatomic, strong) UITableViewCell* signOutButton;
 @end
 
@@ -37,9 +38,6 @@
     self.menuController = [[HamburgerMenuController alloc] init];
     self.menuController.delegate = self;
     
-    self.signOutButton = [[UITableViewCell alloc] init];
-    self.signOutButton.textLabel.text = @"Sign Out";
-    
     User* currentUser = [User currentUser];
     if (currentUser) {
         self.window.rootViewController = self.menuController;
@@ -51,6 +49,28 @@
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;
+}
+
+- (UITableViewCell*) signOutButton
+{
+    if (!_signOutButton) {
+        _signOutButton = [[UITableViewCell alloc] init];
+        _signOutButton.textLabel.text = @"Sign Out";
+        _signOutButton.backgroundColor = self.menuController.backGroundColor;
+        _signOutButton.textLabel.textColor = [UIColor colorWithRed:0.90 green:0.70 blue:0.70 alpha:1];
+        _signOutButton.selectedBackgroundView = [[UIView alloc] initWithFrame:_signOutButton.bounds];
+        _signOutButton.selectedBackgroundView.backgroundColor = self.menuController.selectionColor;
+    }
+    return _signOutButton;
+}
+
+- (UITableViewCell *)spacerCell
+{
+    if (!_spacerCell) {
+        _spacerCell = [[UITableViewCell alloc] init];
+        _spacerCell.backgroundColor = self.menuController.backGroundColor;
+    }
+    return _spacerCell;
 }
 
 - (UIViewController *)homeViewController
@@ -113,12 +133,13 @@
 
 - (void) signOut
 {
+    [self.menuController hideMenuWithDuration:0];
     [User removeCurrentUser];
 }
 
 - (NSInteger)numberOfItemsInMenu:(HamburgerMenuController *)hamburgerMenuController
 {
-    return self.viewControllersInMenu.count + 1;
+    return self.viewControllersInMenu.count + 2;
 }
 
 - (UIViewController *)viewControllerAtIndex:(NSInteger)index hamburgerMenuController:(HamburgerMenuController *)hamburgerMenuController
@@ -133,6 +154,8 @@
 - (UITableViewCell *)cellForMenuItemAtIndex:(NSInteger)index hamburgerMenuController:(HamburgerMenuController *)hamburgerMenuController
 {
     if (index == self.viewControllersInMenu.count) {
+        return self.spacerCell;
+    } else if (index == self.viewControllersInMenu.count + 1) {
         return self.signOutButton;
     }
     return nil;
@@ -147,13 +170,22 @@
     return YES;
 }
 
+- (CGFloat)heightForItemAtIndex:(NSInteger)index hamburgerMenuController:(HamburgerMenuController *)hamburgerMenuController
+{
+    if (index == self.viewControllersInMenu.count) {
+        return [[UIScreen mainScreen]bounds].size.height - 44*(self.viewControllersInMenu.count+2);
+    }
+    
+    return 44;
+}
+
 - (void)didSelectItemAtIndex:(NSInteger)index hamburgerMenuController:(HamburgerMenuController *)hamburgerMenuController
 {
     UIViewController *selectedController = [self viewControllerAtIndex:index hamburgerMenuController:hamburgerMenuController];
     if ([selectedController isKindOfClass:[UINavigationController class]]) {
         UINavigationController *navController = (UINavigationController *) selectedController;
         [navController popToRootViewControllerAnimated:YES];
-    } else if (index == self.viewControllersInMenu.count) {
+    } else if (index == self.viewControllersInMenu.count + 1) { // signout button
         [hamburgerMenuController hideMenuWithDuration:hamburgerMenuController.maxAnimationDuration];
         [self signOut];
     }

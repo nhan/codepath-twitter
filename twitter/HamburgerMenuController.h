@@ -31,6 +31,9 @@
 @property (nonatomic, assign) CGFloat menuRevealOffsetFactor;
 @property (nonatomic, assign) CGFloat minTranslationToTriggerChange;
 @property (nonatomic, assign) CGFloat maxAnimationDuration;
+@property (nonatomic, strong) UIColor *backGroundColor;
+@property (nonatomic, strong) UIColor *selectionColor;
+@property (nonatomic, strong) UIColor *defaultTextColor;
 @property (nonatomic, strong) id<HamburgerMenuDelegate> delegate;
 
 - (void)reloadMenuItems;
