@@ -42,13 +42,19 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    if (self == [[self.navigationController viewControllers] objectAtIndex:0]) {
-        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Menu" style:UIBarButtonItemStylePlain target:self action:@selector(toggleMenu)];
-
-    }
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"New" style:UIBarButtonItemStylePlain target:self action:@selector(newTweet)];
     [self.tableOutlet addSubview:self.tableViewController.view];
     [self refreshView];
+}
+
+- (void) setShouldShowMenuButton:(BOOL)shouldShowMenuButton
+{
+    _shouldShowMenuButton = shouldShowMenuButton;
+    if (shouldShowMenuButton) {
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Menu" style:UIBarButtonItemStylePlain target:self action:@selector(toggleMenu)];
+    } else {
+        self.navigationItem.leftBarButtonItem = nil;
+    }
 }
 
 - (void) viewWillAppear:(BOOL)animated

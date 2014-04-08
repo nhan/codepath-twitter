@@ -15,5 +15,7 @@
 @interface ProfileViewController : UIViewController<TweetTableViewDelegate, ComposeTweetDelegate>
 @property (strong, nonatomic) NSMutableArray* tweets;
 @property (strong, nonatomic) User *user;
+@property (assign, nonatomic) BOOL shouldShowMenuButton;
+
 - (id)initWithUser:(User *)user;
 @end

@@ -27,7 +27,7 @@ static char HamburgerMenuControllerKey;
 #pragma mark - HamburgerMenuController
 # pragma mark - private constants
 // how much the active view gets shifted over to reveal the menu view
-static CGFloat const DefaultMenuItemHeight = 100.0f;
+static CGFloat const DefaultMenuItemHeight = 44.0f;
 static CGFloat const DefaultRevealOffsetFactor = .75f;
 static CGFloat const DefaultMinTranslationToTriggerChange = 20.0f;
 static CGFloat const DefaultMaxAnimationDuration = 0.5;
@@ -91,10 +91,13 @@ static CGFloat const DefaultMaxAnimationDuration = 0.5;
 #pragma mark - UITableViewDataSource, UITableViewDelegate
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell* ret;
+    UITableViewCell* ret = nil;
+
     if ([self.delegate respondsToSelector:@selector(cellForMenuItemAtIndex:hamburgerMenuController:)]) {
         ret = [self.delegate cellForMenuItemAtIndex:indexPath.row hamburgerMenuController:self];
-    } else {
+    }
+
+    if (ret == nil && [self.delegate respondsToSelector:@selector(viewControllerAtIndex:hamburgerMenuController:)]) {
         ret = [self.tableView dequeueReusableCellWithIdentifier:@"DefaultCell" forIndexPath:indexPath];
         ret.textLabel.text = [self.delegate viewControllerAtIndex:indexPath.row hamburgerMenuController:self].title;
     }

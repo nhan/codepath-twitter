@@ -21,6 +21,7 @@
 @property (nonatomic, strong) UIViewController* mentionsViewController;
 @property (nonatomic, strong) ProfileViewController* myProfileViewController;
 @property (nonatomic, strong) UIViewController* signInViewController;
+@property (nonatomic, strong) UITableViewCell* signOutButton;
 @end
 
 @implementation AppDelegate
@@ -31,11 +32,13 @@
     
     
     self.signInViewController = [[SignInViewController alloc] init];
-    self.viewControllersInMenu = @[self.homeViewController,
-                                   self.mentionsViewController,
-                                   [[UINavigationController alloc] initWithRootViewController:self.myProfileViewController]];
+    UIViewController *profileVCWithNav =  [[UINavigationController alloc] initWithRootViewController:self.myProfileViewController];
+    self.viewControllersInMenu = @[self.homeViewController, self.mentionsViewController, profileVCWithNav];
     self.menuController = [[HamburgerMenuController alloc] init];
     self.menuController.delegate = self;
+    
+    self.signOutButton = [[UITableViewCell alloc] init];
+    self.signOutButton.textLabel.text = @"Sign Out";
     
     User* currentUser = [User currentUser];
     if (currentUser) {
@@ -89,6 +92,7 @@
     if (!_myProfileViewController) {
         ProfileViewController *myProfileViewController = [[ProfileViewController alloc] initWithUser:[User currentUser]];
         myProfileViewController.title = @"My Profile";
+        myProfileViewController.shouldShowMenuButton = YES;
         _myProfileViewController = myProfileViewController;
     }
     
@@ -114,12 +118,24 @@
 
 - (NSInteger)numberOfItemsInMenu:(HamburgerMenuController *)hamburgerMenuController
 {
-    return self.viewControllersInMenu.count;
+    return self.viewControllersInMenu.count + 1;
 }
 
 - (UIViewController *)viewControllerAtIndex:(NSInteger)index hamburgerMenuController:(HamburgerMenuController *)hamburgerMenuController
 {
-    return self.viewControllersInMenu[index];
+    if (index < self.viewControllersInMenu.count) {
+        return self.viewControllersInMenu[index];
+    }
+    
+    return nil;
+}
+
+- (UITableViewCell *)cellForMenuItemAtIndex:(NSInteger)index hamburgerMenuController:(HamburgerMenuController *)hamburgerMenuController
+{
+    if (index == self.viewControllersInMenu.count) {
+        return self.signOutButton;
+    }
+    return nil;
 }
 
 - (BOOL) application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
@@ -137,6 +153,9 @@
     if ([selectedController isKindOfClass:[UINavigationController class]]) {
         UINavigationController *navController = (UINavigationController *) selectedController;
         [navController popToRootViewControllerAnimated:YES];
+    } else if (index == self.viewControllersInMenu.count) {
+        [hamburgerMenuController hideMenuWithDuration:hamburgerMenuController.maxAnimationDuration];
+        [self signOut];
     }
 }
 
