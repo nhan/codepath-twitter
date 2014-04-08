@@ -68,6 +68,7 @@
 {
     if (!_spacerCell) {
         _spacerCell = [[UITableViewCell alloc] init];
+        _spacerCell.selectionStyle = UITableViewCellSelectionStyleNone;
         _spacerCell.backgroundColor = self.menuController.backGroundColor;
     }
     return _spacerCell;

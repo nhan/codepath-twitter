@@ -62,6 +62,7 @@ static CGFloat const DefaultMaxAnimationDuration = 0.5;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.backgroundColor = self.backGroundColor;
+    self.tableView.scrollEnabled = NO;
     
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"DefaultCell"];
 
@@ -168,12 +169,18 @@ static CGFloat const DefaultMaxAnimationDuration = 0.5;
     CGFloat snapCenterX = (1 + 2 * self.menuRevealOffsetFactor) * self.view.center.x;
     CGPoint endingCenter = CGPointMake(snapCenterX, self.activeViewController.view.center.y);
     [self animateActiveViewWithDuration:duration endingCenter:endingCenter isMenuRevealed:YES];
+    if (self.activeViewController) {
+        self.activeViewController.view.userInteractionEnabled = NO;
+    }
 }
 
 - (void)hideMenuWithDuration:(NSTimeInterval)duration
 {
     CGPoint endingCenter = CGPointMake(self.view.center.x, self.activeViewController.view.center.y);
     [self animateActiveViewWithDuration:duration endingCenter:endingCenter isMenuRevealed:NO];
+    if (self.activeViewController) {
+        self.activeViewController.view.userInteractionEnabled = YES;
+    }
 }
 
 #pragma mark - private methods
