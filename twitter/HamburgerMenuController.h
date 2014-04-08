@@ -27,7 +27,7 @@
 @end
 
 @interface HamburgerMenuController : UIViewController<UITableViewDataSource, UITableViewDelegate>
-@property (nonatomic, assign) BOOL isMenuRevealed;
+@property (nonatomic, assign, readonly) BOOL isMenuRevealed;
 @property (nonatomic, assign) CGFloat menuRevealOffsetFactor;
 @property (nonatomic, assign) CGFloat minTranslationToTriggerChange;
 @property (nonatomic, assign) CGFloat maxAnimationDuration;

@@ -25,6 +25,8 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
+    
+    // TODO: ADD SIGNOUT BUTTON IN MENU
     self.homeViewController = [[UINavigationController alloc] initWithRootViewController:[[HomeViewController alloc] init]];
     self.signInViewController = [[SignInViewController alloc] init];
     self.menuController = [[HamburgerMenuController alloc] init];

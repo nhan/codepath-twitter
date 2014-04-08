@@ -24,6 +24,7 @@ static char HamburgerMenuControllerKey;
 }
 @end
 
+#pragma mark - HamburgerMenuController
 # pragma mark - private constants
 // how much the active view gets shifted over to reveal the menu view
 static CGFloat const DefaultMenuItemHeight = 100.0f;
@@ -32,6 +33,7 @@ static CGFloat const DefaultMinTranslationToTriggerChange = 20.0f;
 static CGFloat const DefaultMaxAnimationDuration = 0.5;
 
 @interface HamburgerMenuController ()
+@property (nonatomic, assign) BOOL isMenuRevealed;
 @property (nonatomic, strong) UIViewController* activeViewController;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @end
