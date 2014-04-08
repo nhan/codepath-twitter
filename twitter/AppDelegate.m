@@ -9,7 +9,7 @@
 #import "AppDelegate.h"
 #import "User.h"
 #import "TwitterClient.h"
-#import "HomeViewController.h"
+#import "TimelineViewController.h"
 #import "HamburgerMenuController.h"
 #import "SignInViewController.h"
 
@@ -49,7 +49,7 @@
 - (UIViewController *)homeViewController
 {
     if (!_homeViewController) {
-        HomeViewController*  homeViewController = [[HomeViewController alloc] initWithDataLoadingBlockWithSuccessFailure:^(void (^success)(NSArray *), void (^failure)(NSError *)) {
+        TimelineViewController*  homeViewController = [[TimelineViewController alloc] initWithDataLoadingBlockWithSuccessFailure:^(void (^success)(NSArray *), void (^failure)(NSError *)) {
             [[TwitterClient instance] homeTimelineWithSuccess:success failure:failure];
         }];
         homeViewController.title = @"Home";
@@ -66,8 +66,12 @@
 - (UIViewController *)mentionsViewController
 {
     if (!_mentionsViewController) {
-        HomeViewController*  mentionsViewController = [[HomeViewController alloc] initWithDataLoadingBlockWithSuccessFailure:^(void (^success)(NSArray *), void (^failure)(NSError *)) {
+        TimelineViewController*  mentionsViewController = [[TimelineViewController alloc] initWithDataLoadingBlockWithSuccessFailure:^(void (^success)(NSArray *), void (^failure)(NSError *)) {
             [[TwitterClient instance] mentionsTimelineWithSuccess:success failure:failure];
+        }];
+        [[NSNotificationCenter defaultCenter] addObserverForName:NewTweetPostedNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification) {
+            // refetch tweets from server here because it's hard to tell on the client side whether the tweet mentions us or not
+            [mentionsViewController refetchTweetsAndShowProgressHUD];
         }];
         mentionsViewController.title = @"Mentions";
         _mentionsViewController = [[UINavigationController alloc] initWithRootViewController:mentionsViewController];

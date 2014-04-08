@@ -8,19 +8,19 @@
 
 #import <MBProgressHUD.h>
 #import "HamburgerMenuController.h"
-#import "HomeViewController.h"
+#import "TimelineViewController.h"
 #import "TweetDetailViewController.h"
 #import "TwitterClient.h"
 #import "TweetCell.h"
 
-@interface HomeViewController ()
+@interface TimelineViewController ()
 @property (weak, nonatomic) IBOutlet UIView *tableOutlet;
 @property (strong, nonatomic) UIRefreshControl* refreshControl;
 @property (strong, nonatomic) TweetTableViewController* tableViewController;
 @property (copy, nonatomic) void (^dataLoadingBlockWithSuccessFailure)(void (^success)(NSArray *), void (^failure)(NSError *));
 @end
 
-@implementation HomeViewController
+@implementation TimelineViewController
 
 - (id) initWithDataLoadingBlockWithSuccessFailure:(void (^)(void (^success)(NSArray *), void (^failure)(NSError *))) block;
 {

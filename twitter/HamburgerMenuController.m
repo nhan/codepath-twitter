@@ -8,7 +8,7 @@
 
 #import <objc/runtime.h>
 #import "HamburgerMenuController.h"
-#import "HomeViewController.h"
+#import "TimelineViewController.h"
 
 #pragma mark - UIViewController (HamburgerMenuItem)
 @implementation UIViewController (HamburgerMenuItem)

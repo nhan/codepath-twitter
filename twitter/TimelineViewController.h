@@ -11,7 +11,8 @@
 #import "TweetTableViewController.h"
 #import "TweetCell.h"
 
-@interface HomeViewController : UIViewController<TweetTableViewDelegate, ComposeTweetDelegate>
+@interface TimelineViewController : UIViewController<TweetTableViewDelegate, ComposeTweetDelegate>
 @property (strong, nonatomic) NSMutableArray* tweets;
 - (id) initWithDataLoadingBlockWithSuccessFailure:(void (^)(void (^success)(NSArray *), void (^failure)(NSError *))) block;
+- (void) refetchTweetsAndShowProgressHUD;
 @end
