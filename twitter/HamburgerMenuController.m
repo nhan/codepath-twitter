@@ -170,7 +170,8 @@ static CGFloat const DefaultMaxAnimationDuration = 0.5;
     CGPoint endingCenter = CGPointMake(snapCenterX, self.activeViewController.view.center.y);
     [self animateActiveViewWithDuration:duration endingCenter:endingCenter isMenuRevealed:YES];
     if (self.activeViewController) {
-        self.activeViewController.view.userInteractionEnabled = NO;
+        // TODO: this causes bug where the menu button doesn't work
+//        self.activeViewController.view.userInteractionEnabled = NO;
     }
 }
 
@@ -179,7 +180,7 @@ static CGFloat const DefaultMaxAnimationDuration = 0.5;
     CGPoint endingCenter = CGPointMake(self.view.center.x, self.activeViewController.view.center.y);
     [self animateActiveViewWithDuration:duration endingCenter:endingCenter isMenuRevealed:NO];
     if (self.activeViewController) {
-        self.activeViewController.view.userInteractionEnabled = YES;
+//        self.activeViewController.view.userInteractionEnabled = YES;
     }
 }
 
